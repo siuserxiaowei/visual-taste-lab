@@ -1,19 +1,33 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Visual Taste Lab Preview</title>
+  <title>Visual Taste Lab | VI-first UI/UX Skill</title>
+  <meta
+    name="description"
+    content="Visual Taste Lab is a VI-first UI/UX skill for coding agents. It turns brand identity into coherent static website demos."
+  />
+  <meta property="og:title" content="Visual Taste Lab" />
+  <meta property="og:description" content="VI-first UI/UX skill for coding agents." />
+  <meta property="og:image" content="assets/cover.png" />
   <style>
     :root {
-      --ink: #171411;
-      --muted: #6f675e;
-      --line: #ded4c6;
-      --paper: #f2eadb;
+      --ink: #151412;
+      --muted: #645f57;
+      --soft: #8b8378;
+      --paper: #f4efe6;
       --surface: #fffaf0;
-      --brand: #b54a28;
-      --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Noto Sans SC", "PingFang SC", sans-serif;
-      --font-serif: Georgia, "Noto Serif SC", "Songti SC", serif;
+      --surface-2: #ebe2d3;
+      --line: rgba(21, 20, 18, .14);
+      --brand: #c14e31;
+      --brand-dark: #203447;
+      --olive: #7d8b68;
+      --gold: #d7a32e;
+      --radius: 8px;
+      --shadow: 0 24px 70px rgba(38, 31, 23, .12);
+      --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
       --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
 
@@ -21,112 +35,155 @@
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
+      min-width: 320px;
+      overflow-x: hidden;
       background: var(--paper);
       color: var(--ink);
       font-family: var(--font-sans);
+      text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
     }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .36;
+      background-image:
+        linear-gradient(rgba(21, 20, 18, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(21, 20, 18, .035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 64%);
+    }
     a { color: inherit; text-decoration: none; }
-    .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    button, input, textarea, select { font: inherit; }
+    .wrap {
+      width: min(1160px, calc(100% - 40px));
+      margin: 0 auto;
+    }
 
     .top {
       position: sticky;
       top: 0;
       z-index: 20;
-      border-bottom: 1px solid rgba(23, 20, 17, .1);
-      background: rgba(242, 234, 219, .88);
+      border-bottom: 1px solid var(--line);
+      background: rgba(244, 239, 230, .9);
       backdrop-filter: blur(18px);
     }
-    .top .wrap {
-      height: 66px;
+    .top-row {
+      min-height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 18px;
     }
-    .lab-brand {
+    .brand {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      min-width: 0;
       font-weight: 900;
-      letter-spacing: -.02em;
     }
-    .lab-mark {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
+    .mark {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
       border: 2px solid var(--ink);
+      border-radius: 50%;
       display: grid;
       place-items: center;
-      font-family: var(--font-serif);
-      font-size: 16px;
       background: var(--surface);
+      font-family: var(--font-serif);
+      font-weight: 800;
+    }
+    .brand span:last-child {
+      overflow-wrap: anywhere;
     }
     .nav {
       display: flex;
+      align-items: center;
       gap: 18px;
       color: var(--muted);
       font-size: 14px;
-      font-weight: 750;
+      font-weight: 760;
     }
-    .nav a { padding: 6px 0; border-bottom: 1px solid transparent; }
-    .nav a:hover { color: var(--ink); border-color: var(--ink); }
+    .nav a {
+      padding: 7px 0;
+      border-bottom: 1px solid transparent;
+    }
+    .nav a:hover {
+      color: var(--ink);
+      border-color: currentColor;
+    }
 
     .hero {
-      padding: 82px 0 56px;
+      min-height: calc(100svh - 64px);
+      display: flex;
+      align-items: center;
+      padding: 54px 0 42px;
       border-bottom: 1px solid var(--line);
     }
-    .kicker {
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(340px, .78fr);
+      gap: clamp(28px, 5vw, 64px);
+      align-items: center;
+      min-width: 0;
+    }
+    .hero-grid > * { min-width: 0; }
+    .eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
+      color: var(--brand);
       font-size: 12px;
       font-weight: 900;
       letter-spacing: .14em;
       text-transform: uppercase;
-      color: var(--brand);
     }
-    .kicker::before {
+    .eyebrow::before {
       content: "";
-      width: 20px;
+      width: 22px;
       height: 1px;
       background: currentColor;
     }
     h1, h2, h3, p { margin-top: 0; }
     h1 {
-      margin-bottom: 0;
-      max-width: 930px;
+      margin: 14px 0 0;
+      max-width: 850px;
       font-family: var(--font-serif);
-      font-size: clamp(42px, 6vw, 86px);
-      line-height: .98;
-      letter-spacing: -.045em;
-      font-weight: 650;
+      font-size: clamp(48px, 7vw, 92px);
+      line-height: .94;
+      font-weight: 680;
+      overflow-wrap: anywhere;
     }
     .lead {
+      max-width: 730px;
       margin: 24px 0 0;
-      max-width: 790px;
       color: var(--muted);
-      font-size: clamp(17px, 2vw, 21px);
-      line-height: 1.75;
+      font-size: clamp(17px, 2vw, 22px);
+      line-height: 1.62;
+      overflow-wrap: break-word;
     }
     .hero-actions {
-      margin-top: 34px;
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
+      margin-top: 32px;
     }
     .btn {
       min-height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
       border: 1px solid var(--line);
       border-radius: 999px;
       padding: 0 18px;
       background: var(--surface);
       color: var(--ink);
       font-size: 14px;
-      font-weight: 850;
+      font-weight: 840;
       white-space: nowrap;
     }
     .btn.primary {
@@ -134,10 +191,124 @@
       background: var(--ink);
       color: var(--surface);
     }
+    .hero-note {
+      margin-top: 18px;
+      color: var(--soft);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+    .mobile-only { display: none; }
+
+    .lab-panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 250, 240, .78);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .panel-bar {
+      min-height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+    .dots {
+      display: flex;
+      gap: 7px;
+    }
+    .dots i {
+      width: 8px;
+      height: 8px;
+      display: block;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .42;
+    }
+    .audit {
+      padding: 22px;
+    }
+    .audit-title {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .audit-title strong {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      line-height: 1.06;
+    }
+    .audit-title span {
+      color: var(--soft);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .token {
+      min-height: 98px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 4px;
+      border-radius: var(--radius);
+      padding: 12px;
+      color: white;
+      font-size: 12px;
+      font-weight: 850;
+      overflow: hidden;
+    }
+    .token small {
+      color: inherit;
+      opacity: .72;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      overflow-wrap: anywhere;
+    }
+    .audit-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .audit-row {
+      display: grid;
+      grid-template-columns: 108px minmax(0, 1fr);
+      gap: 14px;
+      min-height: 52px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      background: rgba(244, 239, 230, .58);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .audit-row b {
+      color: var(--ink);
+      font-size: 12px;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
 
     .section {
-      padding: 72px 0;
+      padding: 78px 0;
       border-bottom: 1px solid var(--line);
+      position: relative;
     }
     .section-head {
       display: grid;
@@ -148,336 +319,348 @@
     }
     .section-head h2 {
       margin: 10px 0 0;
-      max-width: 700px;
+      max-width: 740px;
       font-family: var(--font-serif);
-      font-size: clamp(30px, 4vw, 52px);
-      line-height: 1.05;
-      letter-spacing: -.035em;
-      font-weight: 650;
+      font-size: clamp(34px, 4vw, 58px);
+      line-height: 1;
+      font-weight: 680;
     }
     .section-head p {
-      color: var(--muted);
-      line-height: 1.75;
       margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
     }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
     .card {
       min-width: 0;
-      background: var(--surface);
       border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 24px;
+      border-radius: var(--radius);
+      padding: 22px;
+      background: var(--surface);
     }
-    .card strong {
+    .card .num {
       display: block;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
+      color: var(--brand);
       font-family: var(--font-serif);
-      font-size: 34px;
+      font-size: 36px;
       line-height: 1;
-      letter-spacing: -.035em;
+      font-weight: 700;
     }
     .card h3 {
       margin: 0;
       font-size: 18px;
-      line-height: 1.35;
-      letter-spacing: -.02em;
+      line-height: 1.28;
     }
     .card p {
-      margin: 12px 0 0;
+      margin: 11px 0 0;
       color: var(--muted);
       font-size: 14px;
-      line-height: 1.72;
+      line-height: 1.68;
     }
 
-    .compare {
+    .demo-stack {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      border: 1px solid var(--line);
-      border-radius: 24px;
+      gap: 48px;
+    }
+    .demo-intro {
+      display: grid;
+      grid-template-columns: minmax(0, .78fr) minmax(0, 1fr);
+      gap: 26px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+    .demo-intro h3 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 3vw, 44px);
+      line-height: 1.05;
+    }
+    .demo-intro p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .palette {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .swatch {
+      min-height: 68px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 3px;
+      border-radius: var(--radius);
+      padding: 10px;
+      color: white;
+      font-size: 12px;
+      font-weight: 840;
       overflow: hidden;
+    }
+    .swatch small {
+      font-family: var(--font-mono);
+      opacity: .7;
+      overflow-wrap: anywhere;
+    }
+    .stage {
+      border: 1px solid rgba(21, 20, 18, .12);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
       background: var(--surface);
     }
-    .compare-block { padding: clamp(24px, 4vw, 38px); }
-    .compare-block + .compare-block { border-left: 1px solid var(--line); background: #f9f3e8; }
-    .compare-title {
+    .stage-bar {
+      min-height: 44px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 20px;
-      font-weight: 900;
-      letter-spacing: -.02em;
-    }
-    .mini-list {
-      display: grid;
-      gap: 10px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      color: var(--muted);
-      line-height: 1.65;
-      font-size: 14px;
-    }
-    .mini-list li {
-      padding-left: 18px;
-      position: relative;
-    }
-    .mini-list li::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--brand);
-      position: absolute;
-      left: 0;
-      top: .75em;
-    }
-
-    .vi-strip {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 22px;
-    }
-    .swatch {
-      min-height: 70px;
-      border-radius: 16px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      gap: 4px;
-      color: white;
+      padding: 0 16px;
+      font-family: var(--font-mono);
       font-size: 12px;
-      font-weight: 850;
-      overflow: hidden;
-    }
-    .swatch span { opacity: .72; font-family: var(--font-mono); font-weight: 700; }
-
-    .stage {
-      margin-top: 26px;
-      border-radius: 30px;
-      overflow: hidden;
-      box-shadow: 0 28px 70px rgba(23, 20, 17, .12);
-    }
-    .browser-bar {
-      min-height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 0 18px;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .08em;
+      font-weight: 800;
+      letter-spacing: .04em;
       text-transform: uppercase;
     }
-    .dots { display: flex; gap: 7px; }
-    .dots i {
-      width: 9px;
-      height: 9px;
-      display: block;
-      border-radius: 50%;
-      background: currentColor;
-      opacity: .45;
+    .site {
+      padding: clamp(22px, 4vw, 44px);
     }
-
-    .site { padding: clamp(24px, 4vw, 44px); }
     .site-nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 40px;
+    }
+    .site-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      font-weight: 950;
+    }
+    .site-brand span:last-child { overflow-wrap: anywhere; }
+    .site-links {
+      display: flex;
       gap: 16px;
-      margin-bottom: 44px;
-    }
-    .site-brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 950; }
-    .site-links { display: flex; gap: 16px; font-size: 13px; font-weight: 800; color: inherit; opacity: .75; }
-    .site-hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(320px, .82fr);
-      gap: 32px;
-      align-items: start;
-    }
-    .site h2 {
-      margin: 0;
-      font-size: clamp(32px, 5vw, 64px);
-      line-height: 1.02;
-      letter-spacing: -.04em;
-    }
-    .site p {
       color: inherit;
       opacity: .72;
-      line-height: 1.7;
+      font-size: 13px;
+      font-weight: 820;
     }
-    .site-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .site-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, .84fr);
+      gap: clamp(20px, 4vw, 36px);
+      align-items: start;
+    }
+    .site h4 {
+      margin: 0;
+      font-size: clamp(31px, 5vw, 64px);
+      line-height: 1.01;
+      font-weight: 850;
+      overflow-wrap: anywhere;
+    }
+    .site p {
+      margin: 16px 0 0;
+      color: inherit;
+      opacity: .72;
+      line-height: 1.62;
+    }
+    .mini-pill {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 16px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 12px;
+      font-weight: 900;
+      opacity: .86;
+    }
+    .site-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
 
+    .company .stage-bar { background: #18283a; color: #f8f2e7; }
     .company-site {
-      color: #13233a;
+      color: #18283a;
       background:
-        linear-gradient(90deg, rgba(19, 35, 58, .06) 1px, transparent 1px),
-        linear-gradient(rgba(19, 35, 58, .06) 1px, transparent 1px),
-        #f6f1e6;
-      background-size: 34px 34px;
+        linear-gradient(90deg, rgba(24, 40, 58, .06) 1px, transparent 1px),
+        linear-gradient(rgba(24, 40, 58, .06) 1px, transparent 1px),
+        #f8f2e7;
+      background-size: 32px 32px;
     }
-    .company-stage .browser-bar { background: #13233a; color: #f6f1e6; }
     .company-logo {
       width: 42px;
       height: 42px;
-      border-radius: 12px;
-      background: #13233a;
+      flex: 0 0 auto;
+      border-radius: var(--radius);
+      background: #18283a;
+      box-shadow: inset 0 0 0 7px #f8f2e7;
       position: relative;
-      box-shadow: inset 0 0 0 7px #f6f1e6;
     }
     .company-logo::after {
       content: "";
       position: absolute;
+      right: 5px;
+      bottom: 6px;
       width: 12px;
       height: 12px;
       border-radius: 50%;
-      right: 5px;
-      bottom: 6px;
-      background: #d19a2e;
+      background: #d7a32e;
     }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 18px;
-      border: 1px solid rgba(19, 35, 58, .18);
-      border-radius: 999px;
-      padding: 7px 12px;
-      color: #7b4b16;
-      background: rgba(255, 252, 243, .8);
-      font-size: 12px;
-      font-weight: 900;
-    }
-    .brief-card {
-      border: 1px solid rgba(19, 35, 58, .18);
-      border-radius: 24px;
-      padding: 24px;
-      background: rgba(255, 252, 243, .82);
-    }
-    .brief-grid {
+    .brief-board {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
     }
     .brief-cell {
-      min-height: 118px;
-      border: 1px solid rgba(19, 35, 58, .16);
-      border-radius: 18px;
+      min-height: 116px;
+      border: 1px solid rgba(24, 40, 58, .16);
+      border-radius: var(--radius);
       padding: 16px;
-      background: #fffaf0;
+      background: rgba(255, 250, 240, .82);
     }
-    .brief-cell b { display: block; color: #13233a; }
-    .brief-cell span { display: block; margin-top: 8px; color: #706658; font-size: 12px; line-height: 1.55; }
+    .brief-cell b { display: block; }
+    .brief-cell span {
+      display: block;
+      margin-top: 8px;
+      color: #6e675f;
+      font-size: 12px;
+      line-height: 1.55;
+    }
 
+    .product .stage-bar { background: #93ff6c; color: #080a14; }
     .product-site {
       color: #f8fbff;
       background:
-        radial-gradient(circle at 78% 12%, rgba(128, 255, 92, .2), transparent 26%),
-        radial-gradient(circle at 10% 90%, rgba(75, 102, 255, .22), transparent 24%),
+        radial-gradient(circle at 78% 14%, rgba(147, 255, 108, .2), transparent 26%),
+        radial-gradient(circle at 14% 88%, rgba(72, 95, 255, .23), transparent 25%),
         #080a14;
-      font-family: Inter, var(--font-sans);
     }
-    .product-stage .browser-bar { background: #80ff5c; color: #080a14; }
     .product-logo {
       width: 42px;
       height: 42px;
+      flex: 0 0 auto;
       border-radius: 50%;
-      background: #80ff5c;
-      color: #080a14;
       display: grid;
       place-items: center;
+      background: #93ff6c;
+      color: #080a14;
       font-weight: 1000;
-      box-shadow: 0 0 0 7px rgba(128, 255, 92, .12);
+      box-shadow: 0 0 0 7px rgba(147, 255, 108, .12);
     }
     .product-panel {
-      border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: 28px;
-      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: var(--radius);
+      padding: 18px;
       background: rgba(255, 255, 255, .08);
-      backdrop-filter: blur(18px);
+      backdrop-filter: blur(16px);
     }
-    .dashboard-lines {
+    .dash-lines {
       display: grid;
       gap: 10px;
     }
     .dash-line {
-      display: grid;
-      grid-template-columns: 1fr 72px;
-      align-items: center;
-      gap: 12px;
       min-height: 54px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
       border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: 18px;
-      padding: 0 15px;
+      border-radius: var(--radius);
+      padding: 0 14px;
       background: rgba(255, 255, 255, .08);
-      color: rgba(255, 255, 255, .72);
+      color: rgba(255, 255, 255, .74);
       font-size: 14px;
     }
-    .dash-line b { color: #80ff5c; }
+    .dash-line b {
+      color: #93ff6c;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
     .metric-row {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
-      margin-top: 24px;
+      margin-top: 22px;
     }
-    .metric-box {
-      border-radius: 20px;
-      padding: 18px;
+    .metric {
+      border-radius: var(--radius);
+      padding: 16px;
       background: #f8fbff;
       color: #080a14;
     }
-    .metric-box b { display: block; font-size: 28px; letter-spacing: -.04em; }
-    .metric-box span { color: #4b5866; font-size: 12px; font-weight: 750; }
+    .metric b {
+      display: block;
+      font-size: 27px;
+      line-height: 1;
+    }
+    .metric span {
+      display: block;
+      margin-top: 7px;
+      color: #53606c;
+      font-size: 12px;
+      font-weight: 760;
+    }
 
-    .editorial-site {
-      color: #221815;
+    .content .stage-bar { background: #241a18; color: #fbf5eb; }
+    .content-site {
+      color: #241a18;
       background: #fbf5eb;
-      font-family: "Noto Serif SC", "Songti SC", Georgia, serif;
+      font-family: var(--font-serif);
     }
-    .editorial-stage .browser-bar { background: #221815; color: #fbf5eb; }
-    .editorial-site .site-nav {
-      border-bottom: 1px solid #d9cbbb;
+    .content-site .site-nav {
+      margin-bottom: 32px;
       padding-bottom: 18px;
-      margin-bottom: 34px;
+      border-bottom: 1px solid #d9cbbb;
     }
-    .editorial-logo {
-      width: 44px;
-      height: 44px;
+    .content-logo {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
       display: grid;
       place-items: center;
-      border: 2px solid #c2482f;
+      border: 2px solid #c54a34;
       border-radius: 50%;
-      color: #c2482f;
+      background: white;
+      color: #c54a34;
       font-weight: 900;
-      font-family: var(--font-serif);
-      background: #fff;
-    }
-    .editorial-site h2 {
-      font-family: "Noto Serif SC", "Songti SC", Georgia, serif;
-      font-weight: 800;
-      letter-spacing: -.035em;
     }
     .story-card {
       border: 1px solid #d9cbbb;
-      border-radius: 28px;
+      border-radius: var(--radius);
+      padding: 20px;
       background: white;
-      padding: 24px;
-      box-shadow: 0 8px 30px rgba(34, 24, 21, .06);
+      box-shadow: 0 8px 30px rgba(36, 26, 24, .06);
     }
     .story-image {
-      aspect-ratio: 1 / .82;
-      border-radius: 22px;
+      aspect-ratio: 1 / .76;
       border: 1px solid #d9cbbb;
+      border-radius: var(--radius);
+      margin-bottom: 16px;
       background:
-        linear-gradient(135deg, transparent 0 47%, #c2482f 48% 52%, transparent 53%),
-        radial-gradient(circle at 24% 30%, #221815 0 7%, transparent 8%),
-        radial-gradient(circle at 70% 72%, #e6b85c 0 10%, transparent 11%),
-        #f6eadb;
-      margin-bottom: 18px;
+        linear-gradient(135deg, transparent 0 46%, #c54a34 47% 52%, transparent 53%),
+        radial-gradient(circle at 22% 28%, #241a18 0 7%, transparent 8%),
+        radial-gradient(circle at 72% 73%, #e2b95a 0 11%, transparent 12%),
+        #f0e4d2;
     }
     .story-list {
       display: grid;
@@ -488,246 +671,616 @@
     .story-list div {
       display: flex;
       justify-content: space-between;
-      gap: 16px;
-      color: #63564c;
+      gap: 12px;
+      color: #665a51;
       font-size: 13px;
+      line-height: 1.4;
+    }
+    .story-list b {
+      color: #241a18;
+      flex: 0 0 auto;
     }
 
-    .footer-note {
-      padding: 38px 0 60px;
+    .steps {
+      counter-reset: step;
+    }
+    .step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr);
+      gap: 16px;
+      min-height: 132px;
+      border-top: 1px solid var(--line);
+      padding: 24px 0;
+    }
+    .step:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+    .step::before {
+      counter-increment: step;
+      content: counter(step, decimal-leading-zero);
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--brand);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .step h3 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+    .step p {
+      max-width: 760px;
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .command-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.03fr) minmax(300px, .74fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+    .terminal {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #151412;
+      color: #fffaf0;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .terminal pre {
+      margin: 0;
+      padding: 22px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .terminal code { color: inherit; }
+    .copy-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      background: var(--surface);
+    }
+    .copy-card h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+    .copy-card p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .copy-card ul {
+      display: grid;
+      gap: 10px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
       color: var(--muted);
       font-size: 14px;
-      line-height: 1.8;
+      line-height: 1.55;
+    }
+    .copy-card li {
+      position: relative;
+      padding-left: 18px;
+    }
+    .copy-card li::before {
+      content: "";
+      position: absolute;
+      top: .7em;
+      left: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--brand);
     }
 
-    @media (max-width: 900px) {
+    .footer {
+      padding: 36px 0 56px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+    }
+
+    @media (max-width: 920px) {
       .nav, .site-links { display: none; }
-      .section-head, .grid-3, .grid-4, .compare, .site-hero, .vi-strip, .metric-row {
+      .hero {
+        min-height: auto;
+        padding: 48px 0 38px;
+      }
+      .hero-grid,
+      .section-head,
+      .grid-3,
+      .grid-4,
+      .demo-intro,
+      .site-hero,
+      .command-layout {
         grid-template-columns: 1fr;
       }
-      .compare-block + .compare-block { border-left: 0; border-top: 1px solid var(--line); }
-      .site-nav { margin-bottom: 28px; }
-      .site { padding: 24px; }
-      h1 { font-size: 44px; }
-      .stage { border-radius: 22px; }
-      .brief-grid { grid-template-columns: 1fr; }
+      .hero-grid,
+      .section-head,
+      .demo-intro,
+      .site-hero,
+      .command-layout {
+        min-width: 0;
+      }
+      .hero-grid > *,
+      .section-head > *,
+      .demo-intro > *,
+      .site-hero > *,
+      .command-layout > * {
+        min-width: 0;
+        max-width: 100%;
+      }
+      .wrap {
+        width: min(100% - 32px, 720px);
+      }
+      .lab-panel {
+        box-shadow: 0 16px 42px rgba(38, 31, 23, .1);
+      }
+      .section {
+        padding: 58px 0;
+      }
+      .site-nav {
+        margin-bottom: 28px;
+      }
+      .brief-board,
+      .metric-row,
+      .palette {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .wrap {
+        width: min(100% - 24px, 520px);
+      }
+      .top-row {
+        min-height: 58px;
+      }
+      .brand {
+        font-size: 14px;
+      }
+      .hero {
+        padding-top: 38px;
+      }
+      h1 {
+        font-size: clamp(32px, 9.6vw, 36px);
+        line-height: 1.02;
+        width: auto;
+        max-width: 340px;
+        word-break: normal;
+        overflow-wrap: break-word;
+      }
+      .lead {
+        font-size: 16px;
+        width: auto;
+        max-width: 330px;
+        overflow-wrap: break-word;
+      }
+      .hero-actions,
+      .lab-panel {
+        width: 100%;
+        max-width: 100%;
+      }
+      .hero-note {
+        width: auto;
+        max-width: 320px;
+      }
+      .hero-actions,
+      .site-cta {
+        align-items: stretch;
+        flex-direction: column;
+      }
+      .btn {
+        width: 100%;
+        white-space: normal;
+        text-align: center;
+        padding: 11px 14px;
+      }
+      .mobile-only { display: block; }
+      .audit,
+      .card,
+      .copy-card {
+        padding: 18px;
+      }
+      .audit-title {
+        display: block;
+      }
+      .audit-title span {
+        display: block;
+        margin-top: 8px;
+      }
+      .token-grid,
+      .palette,
+      .brief-board,
+      .metric-row {
+        grid-template-columns: 1fr;
+      }
+      .audit-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .site {
+        padding: 18px;
+      }
+      .site h4 {
+        font-size: 34px;
+      }
+      .step {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .footer-row {
+        display: block;
+      }
+      .footer-row span {
+        display: block;
+        margin-top: 8px;
+      }
     }
   </style>
 </head>
 <body>
   <header class="top">
-    <div class="wrap">
-      <div class="lab-brand"><span class="lab-mark">V</span> Visual Taste Lab</div>
-      <nav class="nav">
-        <a href="#identity">VI 先行</a>
-        <a href="#company">公司官网</a>
-        <a href="#product">产品页</a>
-        <a href="#editorial">内容品牌</a>
+    <div class="wrap top-row">
+      <a class="brand" href="#top" aria-label="Visual Taste Lab home">
+        <span class="mark">V</span>
+        <span>Visual Taste Lab</span>
+      </a>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#demos">Demos</a>
+        <a href="#how">How it works</a>
+        <a href="#use">Use the Skill</a>
       </nav>
     </div>
   </header>
 
-  <main>
+  <main id="top">
     <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">Public Demo</span>
+          <h1>VI-first UI/UX<br />skill for coding<br class="mobile-only" /> agents.</h1>
+          <p class="lead">
+            Visual Taste Lab helps agents stop making generic pages. It audits visual identity first,
+            turns it into a design language, then applies that language to static pages, product demos,
+            and brand systems.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#demos">View the demos</a>
+            <a class="btn" href="#use">Use the Skill</a>
+          </div>
+          <p class="hero-note">Static GitHub Pages demo. No external runtime. No real client names.</p>
+        </div>
+
+        <aside class="lab-panel" aria-label="Visual identity audit preview">
+          <div class="panel-bar">
+            <span>visual-taste-lab/audit</span>
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          </div>
+          <div class="audit">
+            <div class="audit-title">
+              <strong>Design before layout.</strong>
+              <span>Identity, roles, type, proof, page shape.</span>
+            </div>
+            <div class="token-grid" aria-label="Color role tokens">
+              <div class="token" style="background:#203447">Primary<small>#203447</small></div>
+              <div class="token" style="background:#c14e31">Accent<small>#C14E31</small></div>
+              <div class="token" style="background:#7d8b68">Support<small>#7D8B68</small></div>
+              <div class="token" style="background:#f4efe6;color:#151412">Ground<small>#F4EFE6</small></div>
+            </div>
+            <div class="audit-list">
+              <div class="audit-row"><b>Site type</b><span>Company, product, content brand, tool, dashboard, or hybrid.</span></div>
+              <div class="audit-row"><b>VI anchor</b><span>Logo geometry, name tone, color roles, typography, and component shape.</span></div>
+              <div class="audit-row"><b>Output</b><span>A repeatable design language the agent can apply across pages.</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="fit-title">
       <div class="wrap">
-        <span class="kicker">Public Demo</span>
-        <h1>让 AI 先学会视觉身份，再开始写页面。</h1>
-        <p class="lead">这不是一套固定模板，而是一套可复用的审美工作流：先确认 Logo、主色、辅色、字体气质、组件形态和站点类型，再生成页面。</p>
-        <div class="hero-actions">
-          <a class="btn primary" href="#company">看公开示例</a>
-          <a class="btn" href="#identity">看方法论</a>
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">What it solves</span>
+            <h2 id="fit-title">A taste workflow agents can follow.</h2>
+          </div>
+          <p>
+            The skill separates visual identity from page construction. Instead of asking an agent to
+            make a page nicer, it gives the agent a compact system for deciding what nicer means.
+          </p>
+        </div>
+
+        <div class="grid-4">
+          <article class="card">
+            <span class="num">01</span>
+            <h3>Find the VI anchor</h3>
+            <p>Start with the mark, name, audience, color cues, and the type of site being built.</p>
+          </article>
+          <article class="card">
+            <span class="num">02</span>
+            <h3>Assign color roles</h3>
+            <p>Primary, support, accent, surface, line, and semantic colors each get a job.</p>
+          </article>
+          <article class="card">
+            <span class="num">03</span>
+            <h3>Shape the evidence</h3>
+            <p>Company pages, product pages, and content brands need different proof patterns.</p>
+          </article>
+          <article class="card">
+            <span class="num">04</span>
+            <h3>Apply consistently</h3>
+            <p>Typography, spacing, cards, buttons, tables, and CTAs all speak the same language.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="identity" class="section">
+    <section id="demos" class="section" aria-labelledby="demo-title">
       <div class="wrap">
         <div class="section-head">
           <div>
-            <span class="kicker">Identity First</span>
-            <h2>先判断谁在说话，再决定页面长什么样。</h2>
+            <span class="eyebrow">Three fictional demos</span>
+            <h2 id="demo-title">Same skill, three different site types.</h2>
           </div>
-          <p>AI 页面常见的问题，不是代码不会写，而是没有稳定的视觉定位。公司官网、产品页、内容品牌页说话方式不同，页面结构也不能混用。</p>
+          <p>
+            These are invented examples for public preview. They show how the workflow changes tone,
+            layout, proof, and CTA behavior for different page goals.
+          </p>
         </div>
 
-        <div class="compare">
-          <div class="compare-block">
-            <div class="compare-title"><span>公司官网</span><span>Company Site</span></div>
-            <ul class="mini-list">
-              <li>先建立主体可信度：是谁、服务谁、能力边界是什么。</li>
-              <li>产品或服务是能力矩阵的一部分，不应该抢走全部叙事。</li>
-              <li>视觉要稳定、可持续、适合合作方和长期访客阅读。</li>
-              <li>CTA 通常指向咨询、案例、资料、合作或团队入口。</li>
+        <div class="demo-stack">
+          <article class="company">
+            <div class="demo-intro">
+              <h3>Company Site</h3>
+              <p>A stable, credibility-first page for a fictional operations studio. The layout foregrounds
+                who the team is, what it organizes, and how visitors can evaluate fit.</p>
+            </div>
+            <div class="palette" aria-label="Company Site palette">
+              <div class="swatch" style="background:#18283a">Primary<small>#18283A</small></div>
+              <div class="swatch" style="background:#d7a32e;color:#151412">Support<small>#D7A32E</small></div>
+              <div class="swatch" style="background:#7d8b68">Accent<small>#7D8B68</small></div>
+              <div class="swatch" style="background:#f8f2e7;color:#151412">Ground<small>#F8F2E7</small></div>
+            </div>
+            <div class="stage">
+              <div class="stage-bar"><span>Northline Studio</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+              <div class="site company-site">
+                <div class="site-nav">
+                  <div class="site-brand"><span class="company-logo"></span><span>Northline Studio</span></div>
+                  <div class="site-links"><span>Profile</span><span>Systems</span><span>Proof</span><span>Contact</span></div>
+                </div>
+                <div class="site-hero">
+                  <div>
+                    <span class="mini-pill">Company language</span>
+                    <h4>Complex work, made legible for long-term partners.</h4>
+                    <p>A company site should explain the organization before it sells a single feature:
+                      positioning, capability boundaries, working model, and contact path.</p>
+                    <div class="site-cta">
+                      <a class="btn primary" style="background:#18283a;border-color:#18283a" href="#use">View method</a>
+                      <a class="btn" style="border-color:rgba(24,40,58,.24)" href="#how">See process</a>
+                    </div>
+                  </div>
+                  <div class="brief-board">
+                    <div class="brief-cell"><b>Positioning</b><span>Clear audience, services, and decision context.</span></div>
+                    <div class="brief-cell"><b>Capability</b><span>Systems, content, operations, and delivery rhythm.</span></div>
+                    <div class="brief-cell"><b>Evidence</b><span>Readable proof blocks instead of loud claims.</span></div>
+                    <div class="brief-cell"><b>Contact</b><span>Low-friction inquiry paths and next steps.</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="product">
+            <div class="demo-intro">
+              <h3>Product Page</h3>
+              <p>A direct, action-led page for a fictional dashboard tool. The visual system supports
+                fast comprehension, active states, and a clear primary conversion.</p>
+            </div>
+            <div class="palette" aria-label="Product Page palette">
+              <div class="swatch" style="background:#080a14">Primary<small>#080A14</small></div>
+              <div class="swatch" style="background:#93ff6c;color:#080a14">Accent<small>#93FF6C</small></div>
+              <div class="swatch" style="background:#485fff">Support<small>#485FFF</small></div>
+              <div class="swatch" style="background:#f8fbff;color:#080a14">Ground<small>#F8FBFF</small></div>
+            </div>
+            <div class="stage">
+              <div class="stage-bar"><span>Pulseboard</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+              <div class="site product-site">
+                <div class="site-nav">
+                  <div class="site-brand"><span class="product-logo">P</span><span>Pulseboard</span></div>
+                  <div class="site-links"><span>Features</span><span>Templates</span><span>Pricing</span><span>Login</span></div>
+                </div>
+                <div class="site-hero">
+                  <div>
+                    <span class="mini-pill">Product-first page</span>
+                    <h4>Turn weekly signals into one shared operating view.</h4>
+                    <p>A product page should quickly answer what it does, how it behaves, why it is useful,
+                      and which action the visitor should take next.</p>
+                    <div class="metric-row">
+                      <div class="metric"><b>12</b><span>starter boards</span></div>
+                      <div class="metric"><b>5m</b><span>first setup</span></div>
+                      <div class="metric"><b>0</b><span>blank states</span></div>
+                    </div>
+                  </div>
+                  <div class="product-panel">
+                    <div class="dash-lines">
+                      <div class="dash-line"><span>Revenue pulse</span><b>live</b></div>
+                      <div class="dash-line"><span>Weekly focus</span><b>new</b></div>
+                      <div class="dash-line"><span>Team review</span><b>ready</b></div>
+                    </div>
+                    <a class="btn primary" style="width:100%;margin-top:12px;background:#93ff6c;border-color:#93ff6c;color:#080a14" href="#use">Start from prompt</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="content">
+            <div class="demo-intro">
+              <h3>Content Brand</h3>
+              <p>An editorial, rhythm-led page for a fictional publishing studio. The system relies on
+                typography, spacing, and memorable content frames instead of sales-page density.</p>
+            </div>
+            <div class="palette" aria-label="Content Brand palette">
+              <div class="swatch" style="background:#241a18">Primary<small>#241A18</small></div>
+              <div class="swatch" style="background:#c54a34">Accent<small>#C54A34</small></div>
+              <div class="swatch" style="background:#e2b95a;color:#241a18">Support<small>#E2B95A</small></div>
+              <div class="swatch" style="background:#fbf5eb;color:#241a18">Ground<small>#FBF5EB</small></div>
+            </div>
+            <div class="stage">
+              <div class="stage-bar"><span>Margin House</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+              <div class="site content-site">
+                <div class="site-nav">
+                  <div class="site-brand"><span class="content-logo">M</span><span>Margin House</span></div>
+                  <div class="site-links"><span>Essays</span><span>Work</span><span>Archive</span><span>About</span></div>
+                </div>
+                <div class="site-hero">
+                  <div>
+                    <span class="mini-pill" style="border-radius:4px">Editorial brand language</span>
+                    <h4>Fewer modules, stronger memory.</h4>
+                    <p>A content brand page should create recognition through voice, editorial structure,
+                      image rhythm, and restrained calls to explore.</p>
+                    <div class="site-cta">
+                      <a class="btn primary" style="border-radius:4px;background:#241a18;border-color:#241a18" href="#how">Read the flow</a>
+                      <a class="btn" style="border-radius:4px;background:white;border-color:#d9cbbb" href="#demos">Browse demos</a>
+                    </div>
+                  </div>
+                  <div class="story-card">
+                    <div class="story-image" aria-hidden="true"></div>
+                    <div class="story-list">
+                      <div><span>Visual systems in plain language</span><b>Essay</b></div>
+                      <div><span>When a page needs less furniture</span><b>Note</b></div>
+                      <div><span>Design language as agent context</span><b>Guide</b></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="section" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">How it works</span>
+            <h2 id="how-title">From taste request to reusable page system.</h2>
+          </div>
+          <p>
+            The workflow is intentionally small enough for coding agents to follow inside a repo, but
+            structured enough to avoid one-off decoration.
+          </p>
+        </div>
+
+        <div class="steps">
+          <article class="step">
+            <div>
+              <h3>Audit the identity and page type.</h3>
+              <p>Collect the mark, name, existing colors, audience, content shape, and whether the page is
+                a company site, product page, content brand, or another interface type.</p>
+            </div>
+          </article>
+          <article class="step">
+            <div>
+              <h3>Write a compact design language.</h3>
+              <p>Define typography, color roles, spacing, surfaces, cards, buttons, proof blocks, imagery,
+                motion, and anti-patterns before rebuilding the page.</p>
+            </div>
+          </article>
+          <article class="step">
+            <div>
+              <h3>Apply the system to real screens.</h3>
+              <p>Update shared tokens and components first, then tighten the page structure so the visual
+                decisions stay consistent across desktop and mobile.</p>
+            </div>
+          </article>
+          <article class="step">
+            <div>
+              <h3>Verify with screenshots.</h3>
+              <p>Check the rendered page in desktop and narrow viewports, confirm it is non-empty, readable,
+                and free of horizontal overflow.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="use" class="section" aria-labelledby="use-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Use the Skill</span>
+            <h2 id="use-title">Give your coding agent a visual brief it can execute.</h2>
+          </div>
+          <p>
+            Paste a goal like this into a coding-agent session with the Visual Taste Lab skill installed.
+            Add screenshots, links, or brand notes when you have them.
+          </p>
+        </div>
+
+        <div class="command-layout">
+          <div class="terminal" aria-label="Example command">
+            <div class="panel-bar" style="background:#201f1d;color:#bdb5aa;border-color:rgba(255,255,255,.12)">
+              <span>prompt.txt</span>
+              <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+            <pre><code>/goal Use $visual-taste-lab to improve this website visually.
+
+First distill a reusable design language from the repo, screenshots, links, and brand notes.
+Start with a VI audit:
+- logo or wordmark
+- primary, support, accent, neutral, and semantic colors
+- site type and audience
+- typography, spacing, surfaces, components, CTA rules, and anti-patterns
+
+Then apply the design language to the key pages.
+Keep claims honest. Keep mobile clean. Verify with screenshots.</code></pre>
+          </div>
+
+          <aside class="copy-card">
+            <h3>Best inputs</h3>
+            <p>The skill works with sparse context, but it gets sharper when you provide source material.</p>
+            <ul>
+              <li>Current page screenshots or a local URL.</li>
+              <li>Logo, brand colors, or naming notes.</li>
+              <li>Audience, site type, and the primary action.</li>
+              <li>Examples of sites whose tone feels relevant.</li>
             </ul>
-          </div>
-          <div class="compare-block">
-            <div class="compare-title"><span>产品页</span><span>Product Page</span></div>
-            <ul class="mini-list">
-              <li>先讲一个具体产品解决什么问题，为什么现在值得试用。</li>
-              <li>页面围绕功能、演示、价格、证明和注册转化展开。</li>
-              <li>视觉可以更强、更直接，但要服务一个明确行动。</li>
-              <li>CTA 通常指向开始使用、预约演示、查看价格或下载。</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="grid-4" style="margin-top:14px">
-          <div class="card"><strong>01</strong><h3>Logo Anchor</h3><p>先看标识形状和品牌名，决定视觉锚点。</p></div>
-          <div class="card"><strong>02</strong><h3>Color Roles</h3><p>主色、辅色、强调色、语义色必须各司其职。</p></div>
-          <div class="card"><strong>03</strong><h3>Site Type</h3><p>判断是公司、产品、交易、内容还是后台系统。</p></div>
-          <div class="card"><strong>04</strong><h3>Proof Shape</h3><p>不同站点用不同证据形态：案例、数据、流程、样张。</p></div>
+          </aside>
         </div>
       </div>
     </section>
-
-    <section id="company" class="section">
-      <div class="wrap">
-        <div class="section-head">
-          <div>
-            <span class="kicker">VI Territory A</span>
-            <h2>B2B 公司官网：稳、清楚、有组织感。</h2>
-          </div>
-          <p>适合服务型公司、技术团队、咨询机构、产业服务商。重点不是炫，而是让访客快速理解主体、能力、合作方式和可信证据。</p>
-        </div>
-
-        <div class="vi-strip">
-          <div class="swatch" style="background:#13233a">主色<span>#13233A</span></div>
-          <div class="swatch" style="background:#d19a2e">辅色<span>#D19A2E</span></div>
-          <div class="swatch" style="background:#7f8f6f">强调<span>#7F8F6F</span></div>
-          <div class="swatch" style="background:#f6f1e6;color:#13233a">底色<span>#F6F1E6</span></div>
-        </div>
-
-        <div class="stage company-stage">
-          <div class="browser-bar"><span>AtlasWorks Company Site</span><span class="dots"><i></i><i></i><i></i></span></div>
-          <div class="site company-site">
-            <div class="site-nav">
-              <div class="site-brand"><span class="company-logo"></span><span>AtlasWorks</span></div>
-              <div class="site-links"><span>公司</span><span>能力</span><span>案例</span><span>联系</span></div>
-            </div>
-            <div class="site-hero">
-              <div>
-                <span class="pill">B2B company language</span>
-                <h2>把复杂业务，整理成可合作的系统。</h2>
-                <p>公司官网首屏先建立主体可信度：服务对象、能力边界、交付方式和合作入口，而不是只展示一个孤立卖点。</p>
-                <div class="site-cta">
-                  <a class="btn primary" style="background:#13233a;border-color:#13233a" href="#">查看能力矩阵</a>
-                  <a class="btn" style="border-color:rgba(19,35,58,.22)" href="#">联系顾问</a>
-                </div>
-              </div>
-              <div class="brief-card">
-                <div class="brief-grid">
-                  <div class="brief-cell"><b>Strategy</b><span>业务梳理、路径规划、组织协同</span></div>
-                  <div class="brief-cell"><b>Systems</b><span>流程、数据、工具和知识库建设</span></div>
-                  <div class="brief-cell"><b>Delivery</b><span>轻量原型、上线节奏、复盘机制</span></div>
-                  <div class="brief-cell"><b>Partnership</b><span>合作入口清楚，避免泛泛宣传</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="product" class="section">
-      <div class="wrap">
-        <div class="section-head">
-          <div>
-            <span class="kicker">VI Territory B</span>
-            <h2>SaaS 产品页：直接、行动明确、状态清楚。</h2>
-          </div>
-          <p>适合工具型产品、数据产品、协作产品。页面要快速进入功能、演示和注册，而不是展开一篇公司介绍。</p>
-        </div>
-
-        <div class="vi-strip">
-          <div class="swatch" style="background:#080a14">主色<span>#080A14</span></div>
-          <div class="swatch" style="background:#80ff5c;color:#080a14">强调<span>#80FF5C</span></div>
-          <div class="swatch" style="background:#4b66ff">辅色<span>#4B66FF</span></div>
-          <div class="swatch" style="background:#f8fbff;color:#080a14">底色<span>#F8FBFF</span></div>
-        </div>
-
-        <div class="stage product-stage">
-          <div class="browser-bar"><span>SignalBoard Product Page</span><span class="dots"><i></i><i></i><i></i></span></div>
-          <div class="site product-site">
-            <div class="site-nav">
-              <div class="site-brand"><span class="product-logo">S</span><span>SignalBoard</span></div>
-              <div class="site-links"><span>功能</span><span>价格</span><span>模板</span><span>登录</span></div>
-            </div>
-            <div class="site-hero">
-              <div>
-                <span class="pill" style="background:rgba(128,255,92,.12);border-color:rgba(128,255,92,.32);color:#80ff5c">Product-first page</span>
-                <h2>把每周指标，变成一张团队都看得懂的板。</h2>
-                <p>产品页要让用户立刻知道：我能用它做什么、多久上手、下一步怎么试。</p>
-                <div class="metric-row">
-                  <div class="metric-box"><b>12</b><span>内置模板</span></div>
-                  <div class="metric-box"><b>5m</b><span>创建首板</span></div>
-                  <div class="metric-box"><b>0</b><span>无需配置</span></div>
-                </div>
-              </div>
-              <div class="product-panel">
-                <div class="dashboard-lines">
-                  <div class="dash-line"><span>Revenue Pulse</span><b>Live</b></div>
-                  <div class="dash-line"><span>Weekly Focus</span><b>New</b></div>
-                  <div class="dash-line"><span>Team Review</span><b>Ready</b></div>
-                </div>
-                <button class="btn primary" style="width:100%;margin-top:12px;background:#80ff5c;border-color:#80ff5c;color:#080a14">开始创建</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="editorial" class="section">
-      <div class="wrap">
-        <div class="section-head">
-          <div>
-            <span class="kicker">VI Territory C</span>
-            <h2>内容品牌页：编辑感、节奏感、记忆点。</h2>
-          </div>
-          <p>适合创意工作室、个人品牌、内容产品、作品集。重点不是密集转化，而是形成独特气质，让人记住你。</p>
-        </div>
-
-        <div class="vi-strip">
-          <div class="swatch" style="background:#221815">主色<span>#221815</span></div>
-          <div class="swatch" style="background:#c2482f">强调<span>#C2482F</span></div>
-          <div class="swatch" style="background:#e6b85c;color:#221815">辅色<span>#E6B85C</span></div>
-          <div class="swatch" style="background:#fbf5eb;color:#221815">底色<span>#FBF5EB</span></div>
-        </div>
-
-        <div class="stage editorial-stage">
-          <div class="browser-bar"><span>Field Notes Studio</span><span class="dots"><i></i><i></i><i></i></span></div>
-          <div class="site editorial-site">
-            <div class="site-nav">
-              <div class="site-brand"><span class="editorial-logo">F</span><span>Field Notes</span></div>
-              <div class="site-links"><span>Essays</span><span>Work</span><span>Archive</span><span>About</span></div>
-            </div>
-            <div class="site-hero">
-              <div>
-                <span class="pill" style="border-radius:4px;background:#fff;border-color:#d9cbbb;color:#221815">Editorial brand language</span>
-                <h2>用更少的模块，留下更强的品牌印象。</h2>
-                <p>内容品牌页依靠字体、留白、图像节奏和标题组织建立识别度，不需要每一屏都像销售页面。</p>
-                <div class="site-cta">
-                  <a class="btn primary" style="border-radius:4px;background:#221815;border-color:#221815" href="#">阅读精选</a>
-                  <a class="btn" style="border-radius:4px;background:#fff;border-color:#d9cbbb" href="#">查看作品</a>
-                </div>
-              </div>
-              <div class="story-card">
-                <div class="story-image"></div>
-                <div class="story-list">
-                  <div><span>视觉系统拆解</span><b>Essay</b></div>
-                  <div><span>品牌页面改版笔记</span><b>Case</b></div>
-                  <div><span>组件语言如何保持一致</span><b>Guide</b></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="wrap footer-note">
-      这份公开预览只使用虚构品牌和通用场景。真正用于客户或自有项目时，Skill 会先读取该项目的 Logo、主色、业务类型和受众，再生成专属设计语言。
-    </div>
   </main>
+
+  <footer class="footer">
+    <div class="wrap footer-row">
+      <span>Visual Taste Lab is a public demo page for a coding-agent skill.</span>
+      <span>All demo brands on this page are fictional.</span>
+    </div>
+  </footer>
 </body>
 </html>
