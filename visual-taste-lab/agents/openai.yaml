@@ -1,8 +1,8 @@
 interface:
   display_name: "Visual Taste Lab"
-  short_description: "Distill references into reusable UI design language"
+  short_description: "Distill VI-first visual systems for reliable UI polish"
   brand_color: "#C2410C"
-  default_prompt: "Use $visual-taste-lab to distill a design language from these references, then apply it to my website."
+  default_prompt: "Use $visual-taste-lab to audit the visual identity first, choose the right site archetype, distill a reusable design language, and then apply it to my UI. Keep claims honest and do not expose private project details."
 
 policy:
   allow_implicit_invocation: true
