@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Visual Taste Lab Preview</title>
+  <style>
+    :root {
+      --ink: #171411;
+      --muted: #6f675e;
+      --line: #ded4c6;
+      --paper: #f2eadb;
+      --surface: #fffaf0;
+      --brand: #b54a28;
+      --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Noto Sans SC", "PingFang SC", sans-serif;
+      --font-serif: Georgia, "Noto Serif SC", "Songti SC", serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(23, 20, 17, .1);
+      background: rgba(242, 234, 219, .88);
+      backdrop-filter: blur(18px);
+    }
+    .top .wrap {
+      height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .lab-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+    }
+    .lab-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--ink);
+      display: grid;
+      place-items: center;
+      font-family: var(--font-serif);
+      font-size: 16px;
+      background: var(--surface);
+    }
+    .nav {
+      display: flex;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 750;
+    }
+    .nav a { padding: 6px 0; border-bottom: 1px solid transparent; }
+    .nav a:hover { color: var(--ink); border-color: var(--ink); }
+
+    .hero {
+      padding: 82px 0 56px;
+      border-bottom: 1px solid var(--line);
+    }
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--brand);
+    }
+    .kicker::before {
+      content: "";
+      width: 20px;
+      height: 1px;
+      background: currentColor;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      margin-bottom: 0;
+      max-width: 930px;
+      font-family: var(--font-serif);
+      font-size: clamp(42px, 6vw, 86px);
+      line-height: .98;
+      letter-spacing: -.045em;
+      font-weight: 650;
+    }
+    .lead {
+      margin: 24px 0 0;
+      max-width: 790px;
+      color: var(--muted);
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.75;
+    }
+    .hero-actions {
+      margin-top: 34px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .btn {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0 18px;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .btn.primary {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: var(--surface);
+    }
+
+    .section {
+      padding: 72px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .82fr) minmax(0, 1fr);
+      gap: 36px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+    .section-head h2 {
+      margin: 10px 0 0;
+      max-width: 700px;
+      font-family: var(--font-serif);
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -.035em;
+      font-weight: 650;
+    }
+    .section-head p {
+      color: var(--muted);
+      line-height: 1.75;
+      margin: 0;
+    }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .card {
+      min-width: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 24px;
+    }
+    .card strong {
+      display: block;
+      margin-bottom: 14px;
+      font-family: var(--font-serif);
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: -.035em;
+    }
+    .card h3 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.35;
+      letter-spacing: -.02em;
+    }
+    .card p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.72;
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .compare-block { padding: clamp(24px, 4vw, 38px); }
+    .compare-block + .compare-block { border-left: 1px solid var(--line); background: #f9f3e8; }
+    .compare-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+    }
+    .mini-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+    .mini-list li {
+      padding-left: 18px;
+      position: relative;
+    }
+    .mini-list li::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--brand);
+      position: absolute;
+      left: 0;
+      top: .75em;
+    }
+
+    .vi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 22px;
+    }
+    .swatch {
+      min-height: 70px;
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 4px;
+      color: white;
+      font-size: 12px;
+      font-weight: 850;
+      overflow: hidden;
+    }
+    .swatch span { opacity: .72; font-family: var(--font-mono); font-weight: 700; }
+
+    .stage {
+      margin-top: 26px;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 28px 70px rgba(23, 20, 17, .12);
+    }
+    .browser-bar {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 0 18px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .dots { display: flex; gap: 7px; }
+    .dots i {
+      width: 9px;
+      height: 9px;
+      display: block;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: .45;
+    }
+
+    .site { padding: clamp(24px, 4vw, 44px); }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 44px;
+    }
+    .site-brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 950; }
+    .site-links { display: flex; gap: 16px; font-size: 13px; font-weight: 800; color: inherit; opacity: .75; }
+    .site-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, .82fr);
+      gap: 32px;
+      align-items: start;
+    }
+    .site h2 {
+      margin: 0;
+      font-size: clamp(32px, 5vw, 64px);
+      line-height: 1.02;
+      letter-spacing: -.04em;
+    }
+    .site p {
+      color: inherit;
+      opacity: .72;
+      line-height: 1.7;
+    }
+    .site-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+
+    .company-site {
+      color: #13233a;
+      background:
+        linear-gradient(90deg, rgba(19, 35, 58, .06) 1px, transparent 1px),
+        linear-gradient(rgba(19, 35, 58, .06) 1px, transparent 1px),
+        #f6f1e6;
+      background-size: 34px 34px;
+    }
+    .company-stage .browser-bar { background: #13233a; color: #f6f1e6; }
+    .company-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: #13233a;
+      position: relative;
+      box-shadow: inset 0 0 0 7px #f6f1e6;
+    }
+    .company-logo::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      right: 5px;
+      bottom: 6px;
+      background: #d19a2e;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(19, 35, 58, .18);
+      border-radius: 999px;
+      padding: 7px 12px;
+      color: #7b4b16;
+      background: rgba(255, 252, 243, .8);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .brief-card {
+      border: 1px solid rgba(19, 35, 58, .18);
+      border-radius: 24px;
+      padding: 24px;
+      background: rgba(255, 252, 243, .82);
+    }
+    .brief-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .brief-cell {
+      min-height: 118px;
+      border: 1px solid rgba(19, 35, 58, .16);
+      border-radius: 18px;
+      padding: 16px;
+      background: #fffaf0;
+    }
+    .brief-cell b { display: block; color: #13233a; }
+    .brief-cell span { display: block; margin-top: 8px; color: #706658; font-size: 12px; line-height: 1.55; }
+
+    .product-site {
+      color: #f8fbff;
+      background:
+        radial-gradient(circle at 78% 12%, rgba(128, 255, 92, .2), transparent 26%),
+        radial-gradient(circle at 10% 90%, rgba(75, 102, 255, .22), transparent 24%),
+        #080a14;
+      font-family: Inter, var(--font-sans);
+    }
+    .product-stage .browser-bar { background: #80ff5c; color: #080a14; }
+    .product-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #80ff5c;
+      color: #080a14;
+      display: grid;
+      place-items: center;
+      font-weight: 1000;
+      box-shadow: 0 0 0 7px rgba(128, 255, 92, .12);
+    }
+    .product-panel {
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 28px;
+      padding: 22px;
+      background: rgba(255, 255, 255, .08);
+      backdrop-filter: blur(18px);
+    }
+    .dashboard-lines {
+      display: grid;
+      gap: 10px;
+    }
+    .dash-line {
+      display: grid;
+      grid-template-columns: 1fr 72px;
+      align-items: center;
+      gap: 12px;
+      min-height: 54px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 18px;
+      padding: 0 15px;
+      background: rgba(255, 255, 255, .08);
+      color: rgba(255, 255, 255, .72);
+      font-size: 14px;
+    }
+    .dash-line b { color: #80ff5c; }
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .metric-box {
+      border-radius: 20px;
+      padding: 18px;
+      background: #f8fbff;
+      color: #080a14;
+    }
+    .metric-box b { display: block; font-size: 28px; letter-spacing: -.04em; }
+    .metric-box span { color: #4b5866; font-size: 12px; font-weight: 750; }
+
+    .editorial-site {
+      color: #221815;
+      background: #fbf5eb;
+      font-family: "Noto Serif SC", "Songti SC", Georgia, serif;
+    }
+    .editorial-stage .browser-bar { background: #221815; color: #fbf5eb; }
+    .editorial-site .site-nav {
+      border-bottom: 1px solid #d9cbbb;
+      padding-bottom: 18px;
+      margin-bottom: 34px;
+    }
+    .editorial-logo {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 2px solid #c2482f;
+      border-radius: 50%;
+      color: #c2482f;
+      font-weight: 900;
+      font-family: var(--font-serif);
+      background: #fff;
+    }
+    .editorial-site h2 {
+      font-family: "Noto Serif SC", "Songti SC", Georgia, serif;
+      font-weight: 800;
+      letter-spacing: -.035em;
+    }
+    .story-card {
+      border: 1px solid #d9cbbb;
+      border-radius: 28px;
+      background: white;
+      padding: 24px;
+      box-shadow: 0 8px 30px rgba(34, 24, 21, .06);
+    }
+    .story-image {
+      aspect-ratio: 1 / .82;
+      border-radius: 22px;
+      border: 1px solid #d9cbbb;
+      background:
+        linear-gradient(135deg, transparent 0 47%, #c2482f 48% 52%, transparent 53%),
+        radial-gradient(circle at 24% 30%, #221815 0 7%, transparent 8%),
+        radial-gradient(circle at 70% 72%, #e6b85c 0 10%, transparent 11%),
+        #f6eadb;
+      margin-bottom: 18px;
+    }
+    .story-list {
+      display: grid;
+      gap: 10px;
+      border-top: 1px solid #d9cbbb;
+      padding-top: 14px;
+    }
+    .story-list div {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: #63564c;
+      font-size: 13px;
+    }
+
+    .footer-note {
+      padding: 38px 0 60px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 900px) {
+      .nav, .site-links { display: none; }
+      .section-head, .grid-3, .grid-4, .compare, .site-hero, .vi-strip, .metric-row {
+        grid-template-columns: 1fr;
+      }
+      .compare-block + .compare-block { border-left: 0; border-top: 1px solid var(--line); }
+      .site-nav { margin-bottom: 28px; }
+      .site { padding: 24px; }
+      h1 { font-size: 44px; }
+      .stage { border-radius: 22px; }
+      .brief-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <div class="lab-brand"><span class="lab-mark">V</span> Visual Taste Lab</div>
+      <nav class="nav">
+        <a href="#identity">VI 先行</a>
+        <a href="#company">公司官网</a>
+        <a href="#product">产品页</a>
+        <a href="#editorial">内容品牌</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <span class="kicker">Public Demo</span>
+        <h1>让 AI 先学会视觉身份，再开始写页面。</h1>
+        <p class="lead">这不是一套固定模板，而是一套可复用的审美工作流：先确认 Logo、主色、辅色、字体气质、组件形态和站点类型，再生成页面。</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#company">看公开示例</a>
+          <a class="btn" href="#identity">看方法论</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="identity" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Identity First</span>
+            <h2>先判断谁在说话，再决定页面长什么样。</h2>
+          </div>
+          <p>AI 页面常见的问题，不是代码不会写，而是没有稳定的视觉定位。公司官网、产品页、内容品牌页说话方式不同，页面结构也不能混用。</p>
+        </div>
+
+        <div class="compare">
+          <div class="compare-block">
+            <div class="compare-title"><span>公司官网</span><span>Company Site</span></div>
+            <ul class="mini-list">
+              <li>先建立主体可信度：是谁、服务谁、能力边界是什么。</li>
+              <li>产品或服务是能力矩阵的一部分，不应该抢走全部叙事。</li>
+              <li>视觉要稳定、可持续、适合合作方和长期访客阅读。</li>
+              <li>CTA 通常指向咨询、案例、资料、合作或团队入口。</li>
+            </ul>
+          </div>
+          <div class="compare-block">
+            <div class="compare-title"><span>产品页</span><span>Product Page</span></div>
+            <ul class="mini-list">
+              <li>先讲一个具体产品解决什么问题，为什么现在值得试用。</li>
+              <li>页面围绕功能、演示、价格、证明和注册转化展开。</li>
+              <li>视觉可以更强、更直接，但要服务一个明确行动。</li>
+              <li>CTA 通常指向开始使用、预约演示、查看价格或下载。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid-4" style="margin-top:14px">
+          <div class="card"><strong>01</strong><h3>Logo Anchor</h3><p>先看标识形状和品牌名，决定视觉锚点。</p></div>
+          <div class="card"><strong>02</strong><h3>Color Roles</h3><p>主色、辅色、强调色、语义色必须各司其职。</p></div>
+          <div class="card"><strong>03</strong><h3>Site Type</h3><p>判断是公司、产品、交易、内容还是后台系统。</p></div>
+          <div class="card"><strong>04</strong><h3>Proof Shape</h3><p>不同站点用不同证据形态：案例、数据、流程、样张。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="company" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">VI Territory A</span>
+            <h2>B2B 公司官网：稳、清楚、有组织感。</h2>
+          </div>
+          <p>适合服务型公司、技术团队、咨询机构、产业服务商。重点不是炫，而是让访客快速理解主体、能力、合作方式和可信证据。</p>
+        </div>
+
+        <div class="vi-strip">
+          <div class="swatch" style="background:#13233a">主色<span>#13233A</span></div>
+          <div class="swatch" style="background:#d19a2e">辅色<span>#D19A2E</span></div>
+          <div class="swatch" style="background:#7f8f6f">强调<span>#7F8F6F</span></div>
+          <div class="swatch" style="background:#f6f1e6;color:#13233a">底色<span>#F6F1E6</span></div>
+        </div>
+
+        <div class="stage company-stage">
+          <div class="browser-bar"><span>AtlasWorks Company Site</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="site company-site">
+            <div class="site-nav">
+              <div class="site-brand"><span class="company-logo"></span><span>AtlasWorks</span></div>
+              <div class="site-links"><span>公司</span><span>能力</span><span>案例</span><span>联系</span></div>
+            </div>
+            <div class="site-hero">
+              <div>
+                <span class="pill">B2B company language</span>
+                <h2>把复杂业务，整理成可合作的系统。</h2>
+                <p>公司官网首屏先建立主体可信度：服务对象、能力边界、交付方式和合作入口，而不是只展示一个孤立卖点。</p>
+                <div class="site-cta">
+                  <a class="btn primary" style="background:#13233a;border-color:#13233a" href="#">查看能力矩阵</a>
+                  <a class="btn" style="border-color:rgba(19,35,58,.22)" href="#">联系顾问</a>
+                </div>
+              </div>
+              <div class="brief-card">
+                <div class="brief-grid">
+                  <div class="brief-cell"><b>Strategy</b><span>业务梳理、路径规划、组织协同</span></div>
+                  <div class="brief-cell"><b>Systems</b><span>流程、数据、工具和知识库建设</span></div>
+                  <div class="brief-cell"><b>Delivery</b><span>轻量原型、上线节奏、复盘机制</span></div>
+                  <div class="brief-cell"><b>Partnership</b><span>合作入口清楚，避免泛泛宣传</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="product" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">VI Territory B</span>
+            <h2>SaaS 产品页：直接、行动明确、状态清楚。</h2>
+          </div>
+          <p>适合工具型产品、数据产品、协作产品。页面要快速进入功能、演示和注册，而不是展开一篇公司介绍。</p>
+        </div>
+
+        <div class="vi-strip">
+          <div class="swatch" style="background:#080a14">主色<span>#080A14</span></div>
+          <div class="swatch" style="background:#80ff5c;color:#080a14">强调<span>#80FF5C</span></div>
+          <div class="swatch" style="background:#4b66ff">辅色<span>#4B66FF</span></div>
+          <div class="swatch" style="background:#f8fbff;color:#080a14">底色<span>#F8FBFF</span></div>
+        </div>
+
+        <div class="stage product-stage">
+          <div class="browser-bar"><span>SignalBoard Product Page</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="site product-site">
+            <div class="site-nav">
+              <div class="site-brand"><span class="product-logo">S</span><span>SignalBoard</span></div>
+              <div class="site-links"><span>功能</span><span>价格</span><span>模板</span><span>登录</span></div>
+            </div>
+            <div class="site-hero">
+              <div>
+                <span class="pill" style="background:rgba(128,255,92,.12);border-color:rgba(128,255,92,.32);color:#80ff5c">Product-first page</span>
+                <h2>把每周指标，变成一张团队都看得懂的板。</h2>
+                <p>产品页要让用户立刻知道：我能用它做什么、多久上手、下一步怎么试。</p>
+                <div class="metric-row">
+                  <div class="metric-box"><b>12</b><span>内置模板</span></div>
+                  <div class="metric-box"><b>5m</b><span>创建首板</span></div>
+                  <div class="metric-box"><b>0</b><span>无需配置</span></div>
+                </div>
+              </div>
+              <div class="product-panel">
+                <div class="dashboard-lines">
+                  <div class="dash-line"><span>Revenue Pulse</span><b>Live</b></div>
+                  <div class="dash-line"><span>Weekly Focus</span><b>New</b></div>
+                  <div class="dash-line"><span>Team Review</span><b>Ready</b></div>
+                </div>
+                <button class="btn primary" style="width:100%;margin-top:12px;background:#80ff5c;border-color:#80ff5c;color:#080a14">开始创建</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="editorial" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">VI Territory C</span>
+            <h2>内容品牌页：编辑感、节奏感、记忆点。</h2>
+          </div>
+          <p>适合创意工作室、个人品牌、内容产品、作品集。重点不是密集转化，而是形成独特气质，让人记住你。</p>
+        </div>
+
+        <div class="vi-strip">
+          <div class="swatch" style="background:#221815">主色<span>#221815</span></div>
+          <div class="swatch" style="background:#c2482f">强调<span>#C2482F</span></div>
+          <div class="swatch" style="background:#e6b85c;color:#221815">辅色<span>#E6B85C</span></div>
+          <div class="swatch" style="background:#fbf5eb;color:#221815">底色<span>#FBF5EB</span></div>
+        </div>
+
+        <div class="stage editorial-stage">
+          <div class="browser-bar"><span>Field Notes Studio</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="site editorial-site">
+            <div class="site-nav">
+              <div class="site-brand"><span class="editorial-logo">F</span><span>Field Notes</span></div>
+              <div class="site-links"><span>Essays</span><span>Work</span><span>Archive</span><span>About</span></div>
+            </div>
+            <div class="site-hero">
+              <div>
+                <span class="pill" style="border-radius:4px;background:#fff;border-color:#d9cbbb;color:#221815">Editorial brand language</span>
+                <h2>用更少的模块，留下更强的品牌印象。</h2>
+                <p>内容品牌页依靠字体、留白、图像节奏和标题组织建立识别度，不需要每一屏都像销售页面。</p>
+                <div class="site-cta">
+                  <a class="btn primary" style="border-radius:4px;background:#221815;border-color:#221815" href="#">阅读精选</a>
+                  <a class="btn" style="border-radius:4px;background:#fff;border-color:#d9cbbb" href="#">查看作品</a>
+                </div>
+              </div>
+              <div class="story-card">
+                <div class="story-image"></div>
+                <div class="story-list">
+                  <div><span>视觉系统拆解</span><b>Essay</b></div>
+                  <div><span>品牌页面改版笔记</span><b>Case</b></div>
+                  <div><span>组件语言如何保持一致</span><b>Guide</b></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap footer-note">
+      这份公开预览只使用虚构品牌和通用场景。真正用于客户或自有项目时，Skill 会先读取该项目的 Logo、主色、业务类型和受众，再生成专属设计语言。
+    </div>
+  </main>
+</body>
+</html>

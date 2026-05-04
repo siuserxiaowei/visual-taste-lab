@@ -1,0 +1,8 @@
+interface:
+  display_name: "Visual Taste Lab"
+  short_description: "Distill references into reusable UI design language"
+  brand_color: "#C2410C"
+  default_prompt: "Use $visual-taste-lab to distill a design language from these references, then apply it to my website."
+
+policy:
+  allow_implicit_invocation: true
