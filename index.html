@@ -3,227 +3,353 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Visual Taste Lab | VI-first UI/UX Skill</title>
+  <title>Visual Taste Lab | VI-first design language for coding agents</title>
   <meta
     name="description"
-    content="Visual Taste Lab is a VI-first UI/UX skill for coding agents. It turns brand identity into coherent static website demos."
+    content="Visual Taste Lab helps coding agents audit visual identity first, turn it into a reusable design language, and apply it to real web interfaces."
   />
   <meta property="og:title" content="Visual Taste Lab" />
-  <meta property="og:description" content="VI-first UI/UX skill for coding agents." />
+  <meta property="og:description" content="A VI-first design-language workflow for coding agents." />
   <meta property="og:image" content="assets/cover.png" />
+  <meta name="theme-color" content="#f7f5ef" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Literata:opsz,wght@7..72,500;7..72,600;7..72,700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --ink: #151412;
-      --muted: #645f57;
-      --soft: #8b8378;
-      --paper: #f4efe6;
-      --surface: #fffaf0;
-      --surface-2: #ebe2d3;
-      --line: rgba(21, 20, 18, .14);
-      --brand: #c14e31;
-      --brand-dark: #203447;
-      --olive: #7d8b68;
-      --gold: #d7a32e;
+      color-scheme: light;
+      --ink: #15212b;
+      --ink-strong: #0b1218;
+      --muted: #53616c;
+      --soft: #7a858c;
+      --paper: #f7f5ef;
+      --paper-alt: #eef3ef;
+      --surface: #fffdf7;
+      --surface-cool: #eef4f7;
+      --surface-warm: #f3eadf;
+      --line: rgba(21, 33, 43, .14);
+      --line-strong: rgba(21, 33, 43, .32);
+      --brand: #203447;
+      --brand-2: #c14e31;
+      --support: #6f825f;
+      --gold: #d2a234;
+      --blue: #2f6f9f;
+      --green: #286b57;
+      --warning: #a96d19;
+      --error: #a13b35;
       --radius: 8px;
-      --shadow: 0 24px 70px rgba(38, 31, 23, .12);
-      --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-      --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --shadow: 0 26px 80px rgba(26, 35, 41, .14);
+      --font-display: "Literata", Georgia, serif;
+      --font-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      min-width: 320px;
-      overflow-x: hidden;
+    *, *::before, *::after { box-sizing: border-box; }
+    * { margin: 0; }
+    html {
+      scroll-behavior: smooth;
+      overflow-x: clip;
       background: var(--paper);
+    }
+    body {
+      min-width: 320px;
+      overflow-x: clip;
+      background:
+        linear-gradient(rgba(21, 33, 43, .045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(21, 33, 43, .035) 1px, transparent 1px),
+        linear-gradient(135deg, rgba(32, 52, 71, .06), transparent 36%),
+        var(--paper);
+      background-size: 44px 44px, 44px 44px, auto, auto;
       color: var(--ink);
-      font-family: var(--font-sans);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
     }
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .36;
-      background-image:
-        linear-gradient(rgba(21, 20, 18, .035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(21, 20, 18, .035) 1px, transparent 1px);
-      background-size: 42px 42px;
-      mask-image: linear-gradient(to bottom, black, transparent 64%);
-    }
+    img, svg { display: block; max-width: 100%; }
     a { color: inherit; text-decoration: none; }
     button, input, textarea, select { font: inherit; }
+    :focus-visible {
+      outline: 3px solid rgba(193, 78, 49, .72);
+      outline-offset: 4px;
+    }
+    ::selection {
+      background: rgba(193, 78, 49, .24);
+      color: var(--ink-strong);
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 100;
+      transform: translateY(-160%);
+      border: 1px solid var(--ink);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      background: var(--surface);
+      color: var(--ink);
+      font-weight: 700;
+      transition: transform 180ms ease;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
     .wrap {
-      width: min(1160px, calc(100% - 40px));
+      width: min(1180px, calc(100% - 40px));
       margin: 0 auto;
     }
 
-    .top {
+    .site-header {
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 40;
       border-bottom: 1px solid var(--line);
-      background: rgba(244, 239, 230, .9);
+      background: rgba(247, 245, 239, .9);
       backdrop-filter: blur(18px);
     }
-    .top-row {
-      min-height: 64px;
-      display: flex;
+    .header-row {
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
       align-items: center;
-      justify-content: space-between;
-      gap: 18px;
+      gap: 22px;
     }
-    .brand {
+    .brand-lockup {
       display: inline-flex;
       align-items: center;
       gap: 12px;
       min-width: 0;
-      font-weight: 900;
+      color: var(--ink-strong);
+      font-weight: 800;
     }
-    .mark {
-      width: 34px;
-      height: 34px;
+    .brand-mark {
+      width: 40px;
+      height: 40px;
       flex: 0 0 auto;
-      border: 2px solid var(--ink);
+      border: 1px solid var(--line-strong);
       border-radius: 50%;
       display: grid;
       place-items: center;
-      background: var(--surface);
-      font-family: var(--font-serif);
-      font-weight: 800;
+      background:
+        linear-gradient(90deg, transparent 49%, var(--ink) 49% 51%, transparent 51%),
+        linear-gradient(0deg, transparent 49%, var(--ink) 49% 51%, transparent 51%),
+        conic-gradient(from 270deg, var(--brand) 0 25%, var(--brand-2) 0 50%, var(--support) 0 75%, var(--gold) 0);
+      box-shadow: inset 0 0 0 8px var(--surface);
     }
-    .brand span:last-child {
-      overflow-wrap: anywhere;
-    }
-    .nav {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 760;
-    }
-    .nav a {
-      padding: 7px 0;
-      border-bottom: 1px solid transparent;
-    }
-    .nav a:hover {
-      color: var(--ink);
-      border-color: currentColor;
-    }
-
-    .hero {
-      min-height: calc(100svh - 64px);
-      display: flex;
-      align-items: center;
-      padding: 54px 0 42px;
-      border-bottom: 1px solid var(--line);
-    }
-    .hero-grid {
+    .brand-text {
       display: grid;
-      grid-template-columns: minmax(0, 1.02fr) minmax(340px, .78fr);
-      gap: clamp(28px, 5vw, 64px);
-      align-items: center;
-      min-width: 0;
+      gap: 1px;
+      line-height: 1.05;
     }
-    .hero-grid > * { min-width: 0; }
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      color: var(--brand);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .14em;
+    .brand-text small {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0;
       text-transform: uppercase;
     }
-    .eyebrow::before {
-      content: "";
-      width: 22px;
-      height: 1px;
-      background: currentColor;
-    }
-    h1, h2, h3, p { margin-top: 0; }
-    h1 {
-      margin: 14px 0 0;
-      max-width: 850px;
-      font-family: var(--font-serif);
-      font-size: clamp(48px, 7vw, 92px);
-      line-height: .94;
-      font-weight: 680;
-      overflow-wrap: anywhere;
-    }
-    .lead {
-      max-width: 730px;
-      margin: 24px 0 0;
-      color: var(--muted);
-      font-size: clamp(17px, 2vw, 22px);
-      line-height: 1.62;
-      overflow-wrap: break-word;
-    }
-    .hero-actions {
+    .site-nav {
+      justify-self: center;
       display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 32px;
+      align-items: center;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
     }
+    .site-nav a {
+      position: relative;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+    .site-nav a::after {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 6px;
+      height: 2px;
+      background: currentColor;
+      content: "";
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 180ms ease;
+    }
+    .site-nav a:hover,
+    .site-nav a.is-active { color: var(--ink); }
+    .site-nav a:hover::after,
+    .site-nav a.is-active::after { transform: scaleX(1); }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     .btn {
       min-height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      border: 1px solid var(--line);
+      gap: 9px;
+      border: 1px solid var(--line-strong);
       border-radius: 999px;
       padding: 0 18px;
       background: var(--surface);
       color: var(--ink);
       font-size: 14px;
-      font-weight: 840;
+      font-weight: 800;
+      line-height: 1.2;
       white-space: nowrap;
+      transition: transform 180ms ease, background 180ms ease, color 180ms ease, border-color 180ms ease;
     }
+    .btn svg {
+      width: 17px;
+      height: 17px;
+      flex: 0 0 auto;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 2;
+    }
+    .btn:hover { transform: translateY(-1px); }
     .btn.primary {
       border-color: var(--ink);
       background: var(--ink);
       color: var(--surface);
     }
+    .btn.secondary {
+      border-color: rgba(193, 78, 49, .35);
+      color: var(--brand-2);
+      background: rgba(193, 78, 49, .08);
+    }
+
+    .hero {
+      min-height: auto;
+      display: grid;
+      align-items: center;
+      padding: 52px 0 44px;
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(420px, 1fr);
+      gap: 48px;
+      align-items: center;
+    }
+    .hero-copy,
+    .hero-visual,
+    .hero-grid > * { min-width: 0; }
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--brand-2);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+    .kicker::before {
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      content: "";
+    }
+    h1, h2, h3 {
+      color: var(--ink-strong);
+      font-family: var(--font-display);
+      line-height: 1.04;
+      font-weight: 700;
+    }
+    h1 {
+      max-width: 760px;
+      margin-top: 18px;
+      font-size: 86px;
+      overflow-wrap: anywhere;
+    }
+    .hero-statement {
+      max-width: 680px;
+      margin-top: 18px;
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-size: 28px;
+      line-height: 1.25;
+      font-weight: 600;
+    }
+    .lead {
+      max-width: 680px;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.75;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
     .hero-note {
+      max-width: 640px;
       margin-top: 18px;
       color: var(--soft);
       font-family: var(--font-mono);
       font-size: 12px;
       line-height: 1.7;
-      overflow-wrap: anywhere;
     }
-    .mobile-only { display: none; }
+    .proof-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 28px;
+      max-width: 680px;
+    }
+    .proof-item {
+      border-top: 1px solid var(--line-strong);
+      padding-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .proof-item b {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
 
-    .lab-panel {
-      border: 1px solid var(--line);
+    .workbench {
+      border: 1px solid var(--line-strong);
       border-radius: var(--radius);
-      background: rgba(255, 250, 240, .78);
-      box-shadow: var(--shadow);
       overflow: hidden;
+      background: rgba(255, 253, 247, .9);
+      box-shadow: var(--shadow);
     }
-    .panel-bar {
-      min-height: 46px;
+    .workbench-bar {
+      min-height: 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      padding: 0 16px;
+      gap: 14px;
       border-bottom: 1px solid var(--line);
+      padding: 0 16px;
       background: var(--surface);
       color: var(--muted);
       font-family: var(--font-mono);
       font-size: 12px;
+      font-weight: 600;
     }
     .dots {
-      display: flex;
+      display: inline-flex;
       gap: 7px;
+      color: var(--soft);
     }
     .dots i {
       width: 8px;
@@ -231,513 +357,611 @@
       display: block;
       border-radius: 50%;
       background: currentColor;
-      opacity: .42;
+      opacity: .62;
     }
-    .audit {
+    .workbench-body {
+      display: grid;
+      grid-template-columns: minmax(0, .84fr) minmax(0, 1.16fr);
+      min-height: 520px;
+    }
+    .workbench-rail {
+      border-right: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(21, 33, 43, .04) 1px, transparent 1px),
+        var(--surface-cool);
+      background-size: 28px 28px;
       padding: 22px;
     }
-    .audit-title {
+    .rail-title {
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 22px;
-    }
-    .audit-title strong {
-      display: block;
-      font-family: var(--font-serif);
-      font-size: 28px;
-      line-height: 1.06;
-    }
-    .audit-title span {
-      color: var(--soft);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-    .token-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-    }
-    .token {
-      min-height: 98px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      gap: 4px;
-      border-radius: var(--radius);
-      padding: 12px;
-      color: white;
-      font-size: 12px;
-      font-weight: 850;
-      overflow: hidden;
-    }
-    .token small {
-      color: inherit;
-      opacity: .72;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      overflow-wrap: anywhere;
-    }
-    .audit-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 18px;
-    }
-    .audit-row {
-      display: grid;
-      grid-template-columns: 108px minmax(0, 1fr);
-      gap: 14px;
-      min-height: 52px;
       align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 16px;
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .status-chip {
+      min-height: 26px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(40, 107, 87, .28);
+      border-radius: 999px;
+      padding: 0 9px;
+      background: rgba(40, 107, 87, .1);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .input-list,
+    .check-list,
+    .language-list {
+      display: grid;
+      gap: 10px;
+      list-style: none;
+      padding: 0;
+    }
+    .input-list li,
+    .check-list li,
+    .language-list li {
+      min-width: 0;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 10px 12px;
-      background: rgba(244, 239, 230, .58);
+      padding: 12px;
+      background: rgba(255, 253, 247, .78);
       color: var(--muted);
       font-size: 13px;
       line-height: 1.45;
     }
-    .audit-row b {
+    .input-list b,
+    .check-list b,
+    .language-list b {
+      display: block;
+      margin-bottom: 4px;
       color: var(--ink);
+      font-size: 13px;
+    }
+    .token-board {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .token {
+      min-height: 92px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      border-radius: var(--radius);
+      padding: 12px;
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
+      overflow: hidden;
+    }
+    .token small {
+      color: inherit;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      opacity: .75;
+    }
+    .workbench-main {
+      padding: 22px;
+      background: var(--surface);
+    }
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .pipeline-step {
+      min-height: 118px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: var(--paper);
+    }
+    .pipeline-step span {
+      display: block;
+      color: var(--brand-2);
+      font-family: var(--font-mono);
       font-size: 12px;
-      letter-spacing: .09em;
-      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .pipeline-step b {
+      display: block;
+      margin-top: 10px;
+      color: var(--ink);
+      line-height: 1.22;
+      overflow-wrap: anywhere;
+    }
+    .language-panel {
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      padding: 18px;
+      background: #172634;
+      color: #f8f5eb;
+    }
+    .language-panel h2 {
+      color: #f8f5eb;
+      font-size: 30px;
+    }
+    .language-panel p {
+      margin-top: 10px;
+      color: rgba(248, 245, 235, .72);
+      line-height: 1.62;
+    }
+    .language-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 16px;
+    }
+    .language-list li {
+      border-color: rgba(248, 245, 235, .16);
+      background: rgba(248, 245, 235, .08);
+      color: rgba(248, 245, 235, .68);
+    }
+    .language-list b { color: #f8f5eb; }
+    .quality-gate {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .gate-pill,
+    .verify-chip {
+      min-height: 54px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px;
+      background: var(--paper-alt);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .gate-pill b {
+      display: block;
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+    .verify-chip {
+      grid-column: span 2;
+      background: var(--ink-strong);
+      color: #f8f5eb;
+      font-family: var(--font-mono);
+      overflow-wrap: anywhere;
+    }
+    .gate-panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: var(--paper-alt);
+    }
+    .gate-panel h3 {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.3;
+    }
+    .check-list { margin-top: 12px; }
+    .check-list li {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+    .check-list span:first-child {
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(40, 107, 87, .12);
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .code-slab {
+      min-height: 100%;
+      border-radius: var(--radius);
+      padding: 16px;
+      background: var(--ink-strong);
+      color: #f8f5eb;
+      overflow: auto;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.7;
     }
 
     .section {
-      padding: 78px 0;
       border-bottom: 1px solid var(--line);
+      padding: 82px 0;
       position: relative;
+    }
+    #method {
+      padding-top: 48px;
     }
     .section-head {
       display: grid;
       grid-template-columns: minmax(0, .82fr) minmax(0, 1fr);
-      gap: 36px;
+      gap: 40px;
       align-items: end;
       margin-bottom: 28px;
     }
     .section-head h2 {
-      margin: 10px 0 0;
-      max-width: 740px;
-      font-family: var(--font-serif);
-      font-size: clamp(34px, 4vw, 58px);
-      line-height: 1;
-      font-weight: 680;
+      margin-top: 12px;
+      max-width: 720px;
+      font-size: 52px;
     }
     .section-head p {
-      margin: 0;
       color: var(--muted);
-      font-size: 16px;
-      line-height: 1.7;
+      font-size: 17px;
+      line-height: 1.75;
     }
-    .grid-3 {
+
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .principle-card {
+      min-width: 0;
+      min-height: 230px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      background: var(--surface);
+    }
+    .principle-card span {
+      display: block;
+      color: var(--brand-2);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .principle-card h3 {
+      margin-top: 18px;
+      font-size: 24px;
+    }
+    .principle-card p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .case-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
     }
-    .grid-4 {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .card {
+    .case-card {
       min-width: 0;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 22px;
+      overflow: hidden;
       background: var(--surface);
+      box-shadow: 0 18px 58px rgba(21, 33, 43, .08);
     }
-    .card .num {
-      display: block;
-      margin-bottom: 18px;
-      color: var(--brand);
-      font-family: var(--font-serif);
-      font-size: 36px;
-      line-height: 1;
+    .case-card img {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+      background: var(--paper-alt);
+    }
+    .case-copy {
+      border-top: 1px solid var(--line);
+      padding: 18px;
+    }
+    .case-copy span {
+      color: var(--brand-2);
+      font-family: var(--font-mono);
+      font-size: 12px;
       font-weight: 700;
+      text-transform: uppercase;
     }
-    .card h3 {
-      margin: 0;
-      font-size: 18px;
-      line-height: 1.28;
+    .case-copy h3 {
+      margin-top: 8px;
+      font-size: 24px;
     }
-    .card p {
-      margin: 11px 0 0;
+    .case-copy p {
+      margin-top: 10px;
       color: var(--muted);
       font-size: 14px;
-      line-height: 1.68;
+      line-height: 1.65;
     }
 
-    .demo-stack {
+    .reference-grid {
       display: grid;
-      gap: 48px;
+      grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr);
+      gap: 18px;
+      align-items: stretch;
     }
-    .demo-intro {
+    .reference-panel,
+    .compare-board,
+    .prompt-card,
+    .screenshot-frame {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+    .reference-panel {
+      padding: 22px;
       display: grid;
-      grid-template-columns: minmax(0, .78fr) minmax(0, 1fr);
-      gap: 26px;
-      align-items: end;
-      margin-bottom: 18px;
+      align-content: space-between;
+      gap: 24px;
     }
-    .demo-intro h3 {
-      margin: 0;
-      font-family: var(--font-serif);
-      font-size: clamp(28px, 3vw, 44px);
-      line-height: 1.05;
+    .reference-panel h3 {
+      font-size: 32px;
     }
-    .demo-intro p {
-      margin: 0;
+    .reference-panel p {
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .reference-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .reference-tags span {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0 10px;
+      background: var(--paper);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .compare-board {
+      overflow: hidden;
+    }
+    .compare-row {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: 18px;
+      min-height: 94px;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      padding: 16px 18px;
+    }
+    .compare-row:first-child { border-top: 0; }
+    .compare-row b {
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    .compare-row span {
       color: var(--muted);
       line-height: 1.65;
     }
-    .palette {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    .swatch {
-      min-height: 68px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      gap: 3px;
-      border-radius: var(--radius);
-      padding: 10px;
-      color: white;
-      font-size: 12px;
-      font-weight: 840;
-      overflow: hidden;
-    }
-    .swatch small {
-      font-family: var(--font-mono);
-      opacity: .7;
-      overflow-wrap: anywhere;
-    }
-    .stage {
-      border: 1px solid rgba(21, 20, 18, .12);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      background: var(--surface);
-    }
-    .stage-bar {
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 0 16px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-    }
-    .site {
-      padding: clamp(22px, 4vw, 44px);
-    }
-    .site-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 40px;
-    }
-    .site-brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-      font-weight: 950;
-    }
-    .site-brand span:last-child { overflow-wrap: anywhere; }
-    .site-links {
-      display: flex;
-      gap: 16px;
-      color: inherit;
-      opacity: .72;
-      font-size: 13px;
-      font-weight: 820;
-    }
-    .site-hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(280px, .84fr);
-      gap: clamp(20px, 4vw, 36px);
-      align-items: start;
-    }
-    .site h4 {
-      margin: 0;
-      font-size: clamp(31px, 5vw, 64px);
-      line-height: 1.01;
-      font-weight: 850;
-      overflow-wrap: anywhere;
-    }
-    .site p {
-      margin: 16px 0 0;
-      color: inherit;
-      opacity: .72;
-      line-height: 1.62;
-    }
-    .mini-pill {
-      display: inline-flex;
-      align-items: center;
-      margin-bottom: 16px;
-      border: 1px solid currentColor;
-      border-radius: 999px;
-      padding: 7px 11px;
-      font-size: 12px;
-      font-weight: 900;
-      opacity: .86;
-    }
-    .site-cta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 24px;
-    }
 
-    .company .stage-bar { background: #18283a; color: #f8f2e7; }
-    .company-site {
-      color: #18283a;
-      background:
-        linear-gradient(90deg, rgba(24, 40, 58, .06) 1px, transparent 1px),
-        linear-gradient(rgba(24, 40, 58, .06) 1px, transparent 1px),
-        #f8f2e7;
-      background-size: 32px 32px;
-    }
-    .company-logo {
-      width: 42px;
-      height: 42px;
-      flex: 0 0 auto;
-      border-radius: var(--radius);
-      background: #18283a;
-      box-shadow: inset 0 0 0 7px #f8f2e7;
-      position: relative;
-    }
-    .company-logo::after {
-      content: "";
-      position: absolute;
-      right: 5px;
-      bottom: 6px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #d7a32e;
-    }
-    .brief-board {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-    .brief-cell {
-      min-height: 116px;
-      border: 1px solid rgba(24, 40, 58, .16);
-      border-radius: var(--radius);
-      padding: 16px;
-      background: rgba(255, 250, 240, .82);
-    }
-    .brief-cell b { display: block; }
-    .brief-cell span {
-      display: block;
-      margin-top: 8px;
-      color: #6e675f;
-      font-size: 12px;
-      line-height: 1.55;
-    }
-
-    .product .stage-bar { background: #93ff6c; color: #080a14; }
-    .product-site {
-      color: #f8fbff;
-      background:
-        radial-gradient(circle at 78% 14%, rgba(147, 255, 108, .2), transparent 26%),
-        radial-gradient(circle at 14% 88%, rgba(72, 95, 255, .23), transparent 25%),
-        #080a14;
-    }
-    .product-logo {
-      width: 42px;
-      height: 42px;
-      flex: 0 0 auto;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: #93ff6c;
-      color: #080a14;
-      font-weight: 1000;
-      box-shadow: 0 0 0 7px rgba(147, 255, 108, .12);
-    }
-    .product-panel {
-      border: 1px solid rgba(255, 255, 255, .13);
-      border-radius: var(--radius);
-      padding: 18px;
-      background: rgba(255, 255, 255, .08);
-      backdrop-filter: blur(16px);
-    }
-    .dash-lines {
-      display: grid;
-      gap: 10px;
-    }
-    .dash-line {
-      min-height: 54px;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: center;
-      gap: 10px;
-      border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: var(--radius);
-      padding: 0 14px;
-      background: rgba(255, 255, 255, .08);
-      color: rgba(255, 255, 255, .74);
-      font-size: 14px;
-    }
-    .dash-line b {
-      color: #93ff6c;
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-    .metric-row {
+    .archetype-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 22px;
+      gap: 14px;
     }
-    .metric {
+    .archetype-card {
+      min-width: 0;
+      border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 16px;
-      background: #f8fbff;
-      color: #080a14;
+      overflow: hidden;
+      background: var(--surface);
     }
-    .metric b {
-      display: block;
-      font-size: 27px;
-      line-height: 1;
-    }
-    .metric span {
-      display: block;
-      margin-top: 7px;
-      color: #53606c;
-      font-size: 12px;
-      font-weight: 760;
-    }
-
-    .content .stage-bar { background: #241a18; color: #fbf5eb; }
-    .content-site {
-      color: #241a18;
-      background: #fbf5eb;
-      font-family: var(--font-serif);
-    }
-    .content-site .site-nav {
-      margin-bottom: 32px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid #d9cbbb;
-    }
-    .content-logo {
-      width: 42px;
-      height: 42px;
-      flex: 0 0 auto;
+    .archetype-top {
+      min-height: 190px;
+      padding: 18px;
       display: grid;
-      place-items: center;
-      border: 2px solid #c54a34;
-      border-radius: 50%;
-      background: white;
-      color: #c54a34;
-      font-weight: 900;
+      align-content: space-between;
     }
-    .story-card {
-      border: 1px solid #d9cbbb;
-      border-radius: var(--radius);
-      padding: 20px;
-      background: white;
-      box-shadow: 0 8px 30px rgba(36, 26, 24, .06);
-    }
-    .story-image {
-      aspect-ratio: 1 / .76;
-      border: 1px solid #d9cbbb;
-      border-radius: var(--radius);
-      margin-bottom: 16px;
+    .archetype-top.dark {
       background:
-        linear-gradient(135deg, transparent 0 46%, #c54a34 47% 52%, transparent 53%),
-        radial-gradient(circle at 22% 28%, #241a18 0 7%, transparent 8%),
-        radial-gradient(circle at 72% 73%, #e2b95a 0 11%, transparent 12%),
-        #f0e4d2;
+        linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px),
+        #111b25;
+      background-size: 28px 28px;
+      color: #f8f5eb;
     }
-    .story-list {
-      display: grid;
-      gap: 10px;
-      border-top: 1px solid #d9cbbb;
-      padding-top: 14px;
+    .archetype-top.light {
+      background:
+        linear-gradient(90deg, rgba(21,33,43,.06) 1px, transparent 1px),
+        var(--paper-alt);
+      background-size: 28px 28px;
     }
-    .story-list div {
+    .archetype-top.editorial {
+      background:
+        linear-gradient(135deg, transparent 0 48%, rgba(193,78,49,.18) 48% 52%, transparent 52%),
+        var(--surface-warm);
+    }
+    .mini-brand {
       display: flex;
+      align-items: center;
       justify-content: space-between;
       gap: 12px;
-      color: #665a51;
-      font-size: 13px;
-      line-height: 1.4;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
     }
-    .story-list b {
-      color: #241a18;
-      flex: 0 0 auto;
+    .mini-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--brand-2);
+    }
+    .archetype-top h3 {
+      max-width: 360px;
+      font-size: 32px;
+    }
+    .archetype-body {
+      padding: 18px;
+    }
+    .archetype-body p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .mini-table {
+      display: grid;
+      gap: 8px;
+      margin-top: 18px;
+    }
+    .mini-table div {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 12px;
+      border-top: 1px solid var(--line);
+      padding-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .mini-table b {
+      color: var(--ink);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
     }
 
+    .screens {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, .42fr);
+      gap: 16px;
+      align-items: start;
+    }
+    .screenshot-frame {
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .screenshot-frame img {
+      width: 100%;
+      height: auto;
+      background: var(--paper);
+    }
+    .screenshot-caption {
+      border-top: 1px solid var(--line);
+      padding: 12px 14px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .method-layout {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: 18px;
+    }
     .steps {
       counter-reset: step;
+      border-top: 1px solid var(--line);
     }
     .step {
-      position: relative;
       display: grid;
-      grid-template-columns: 54px minmax(0, 1fr);
-      gap: 16px;
-      min-height: 132px;
-      border-top: 1px solid var(--line);
-      padding: 24px 0;
-    }
-    .step:last-child {
+      grid-template-columns: 56px minmax(0, 1fr);
+      gap: 18px;
       border-bottom: 1px solid var(--line);
+      padding: 22px 0;
     }
     .step::before {
       counter-increment: step;
       content: counter(step, decimal-leading-zero);
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       display: grid;
       place-items: center;
       border: 1px solid var(--line);
       border-radius: 50%;
       background: var(--surface);
-      color: var(--brand);
+      color: var(--brand-2);
       font-family: var(--font-mono);
       font-size: 12px;
-      font-weight: 900;
+      font-weight: 700;
     }
     .step h3 {
-      margin: 0;
-      font-size: 22px;
-      line-height: 1.25;
+      font-family: var(--font-body);
+      font-size: 19px;
+      line-height: 1.28;
     }
     .step p {
-      max-width: 760px;
-      margin: 8px 0 0;
+      margin-top: 8px;
       color: var(--muted);
       line-height: 1.65;
     }
+    .check-panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      background: #172634;
+      color: #f8f5eb;
+    }
+    .check-panel h3 {
+      color: #f8f5eb;
+      font-size: 30px;
+    }
+    .check-panel p {
+      margin-top: 12px;
+      color: rgba(248, 245, 235, .72);
+    }
+    .check-panel .check-list {
+      margin-top: 20px;
+      gap: 14px;
+    }
+    .check-panel .check-list span:first-child {
+      background: rgba(210, 162, 52, .18);
+      color: #f2c75b;
+    }
+    .check-panel .check-list li {
+      color: rgba(248, 245, 235, .76);
+    }
 
-    .command-layout {
+    .use-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.03fr) minmax(300px, .74fr);
+      grid-template-columns: minmax(0, 1.05fr) minmax(300px, .72fr);
       gap: 18px;
       align-items: stretch;
     }
-    .terminal {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #151412;
-      color: #fffaf0;
+    .prompt-card {
       overflow: hidden;
+      background: #0f171f;
+      color: #f8f5eb;
       box-shadow: var(--shadow);
     }
-    .terminal pre {
+    .prompt-toolbar {
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      padding: 0 14px;
+      color: rgba(248, 245, 235, .72);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+    .copy-button {
+      min-height: 34px;
+      border: 1px solid rgba(248, 245, 235, .22);
+      border-radius: 999px;
+      padding: 0 11px;
+      background: rgba(248, 245, 235, .08);
+      color: #f8f5eb;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .prompt-card pre {
       margin: 0;
       padding: 22px;
       overflow-x: auto;
@@ -745,54 +969,52 @@
       overflow-wrap: anywhere;
       font-family: var(--font-mono);
       font-size: 13px;
-      line-height: 1.7;
+      line-height: 1.75;
     }
-    .terminal code { color: inherit; }
-    .copy-card {
+    .aside-card {
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 22px;
       background: var(--surface);
     }
-    .copy-card h3 {
-      margin: 0;
-      font-size: 20px;
+    .aside-card h3 {
+      font-family: var(--font-body);
+      font-size: 22px;
+      line-height: 1.28;
     }
-    .copy-card p {
-      margin: 12px 0 0;
+    .aside-card p {
+      margin-top: 12px;
       color: var(--muted);
       line-height: 1.65;
     }
-    .copy-card ul {
+    .aside-card ul {
       display: grid;
       gap: 10px;
-      margin: 18px 0 0;
-      padding: 0;
       list-style: none;
+      margin-top: 18px;
+      padding: 0;
+    }
+    .aside-card li {
+      display: grid;
+      grid-template-columns: 18px minmax(0, 1fr);
+      gap: 10px;
       color: var(--muted);
       font-size: 14px;
       line-height: 1.55;
     }
-    .copy-card li {
-      position: relative;
-      padding-left: 18px;
-    }
-    .copy-card li::before {
-      content: "";
-      position: absolute;
-      top: .7em;
-      left: 0;
-      width: 6px;
-      height: 6px;
+    .aside-card li::before {
+      width: 8px;
+      height: 8px;
+      margin-top: .55em;
       border-radius: 50%;
-      background: var(--brand);
+      background: var(--brand-2);
+      content: "";
     }
 
     .footer {
-      padding: 36px 0 56px;
+      padding: 36px 0 54px;
       color: var(--muted);
       font-size: 14px;
-      line-height: 1.7;
     }
     .footer-row {
       display: flex;
@@ -801,134 +1023,174 @@
       border-top: 1px solid var(--line);
       padding-top: 24px;
     }
+    .footer a {
+      color: var(--ink);
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
 
-    @media (max-width: 920px) {
-      .nav, .site-links { display: none; }
-      .hero {
-        min-height: auto;
-        padding: 48px 0 38px;
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 520ms cubic-bezier(.16, 1, .3, 1), transform 520ms cubic-bezier(.16, 1, .3, 1);
+    }
+    [data-reveal].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
       }
-      .hero-grid,
-      .section-head,
-      .grid-3,
-      .grid-4,
-      .demo-intro,
-      .site-hero,
-      .command-layout {
-        grid-template-columns: 1fr;
-      }
-      .hero-grid,
-      .section-head,
-      .demo-intro,
-      .site-hero,
-      .command-layout {
-        min-width: 0;
-      }
-      .hero-grid > *,
-      .section-head > *,
-      .demo-intro > *,
-      .site-hero > *,
-      .command-layout > * {
-        min-width: 0;
-        max-width: 100%;
-      }
-      .wrap {
-        width: min(100% - 32px, 720px);
-      }
-      .lab-panel {
-        box-shadow: 0 16px 42px rgba(38, 31, 23, .1);
-      }
-      .section {
-        padding: 58px 0;
-      }
-      .site-nav {
-        margin-bottom: 28px;
-      }
-      .brief-board,
-      .metric-row,
-      .palette {
-        grid-template-columns: 1fr 1fr;
+      [data-reveal] {
+        opacity: 1;
+        transform: none;
       }
     }
 
-    @media (max-width: 560px) {
-      .wrap {
-        width: min(100% - 24px, 520px);
+    @media (max-width: 1100px) {
+      h1 { font-size: 70px; }
+      .hero-grid,
+      .reference-grid,
+      .method-layout,
+      .use-grid {
+        grid-template-columns: 1fr;
       }
-      .top-row {
-        min-height: 58px;
+      .hero-visual {
+        max-width: 860px;
       }
-      .brand {
-        font-size: 14px;
+      .principles {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 920px) {
+      .site-nav,
+      .header-actions .btn.secondary {
+        display: none;
+      }
+      .header-row {
+        grid-template-columns: minmax(0, 1fr) auto;
       }
       .hero {
-        padding-top: 38px;
+        min-height: auto;
+        padding: 44px 0 38px;
+      }
+      .hero-grid,
+      .workbench-body,
+      .section-head,
+      .case-grid,
+      .archetype-grid,
+      .screens,
+      .quality-gate {
+        grid-template-columns: 1fr;
+      }
+      .workbench-rail {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .section {
+        padding: 62px 0;
+      }
+      .section-head {
+        gap: 18px;
+        align-items: start;
+      }
+      .section-head h2 {
+        font-size: 42px;
+      }
+      .language-list,
+      .pipeline {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        width: min(100% - 24px, 560px);
+      }
+      .header-row {
+        min-height: 64px;
+      }
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+        box-shadow: inset 0 0 0 7px var(--surface);
+      }
+      .brand-text small {
+        display: none;
       }
       h1 {
-        font-size: clamp(32px, 9.6vw, 36px);
-        line-height: 1.02;
-        width: auto;
-        max-width: 340px;
-        word-break: normal;
+        font-size: 44px;
+        line-height: 1.08;
         overflow-wrap: break-word;
       }
-      .lead {
+      .hero-statement {
+        font-size: 22px;
+      }
+      .lead,
+      .section-head p {
         font-size: 16px;
-        width: auto;
-        max-width: 330px;
-        overflow-wrap: break-word;
       }
       .hero-actions,
-      .lab-panel {
+      .header-actions {
         width: 100%;
-        max-width: 100%;
       }
-      .hero-note {
-        width: auto;
-        max-width: 320px;
-      }
-      .hero-actions,
-      .site-cta {
-        align-items: stretch;
-        flex-direction: column;
+      .header-actions {
+        justify-content: end;
       }
       .btn {
-        width: 100%;
         white-space: normal;
         text-align: center;
-        padding: 11px 14px;
       }
-      .mobile-only { display: block; }
-      .audit,
-      .card,
-      .copy-card {
-        padding: 18px;
+      .hero-actions .btn {
+        width: 100%;
       }
-      .audit-title {
-        display: block;
-      }
-      .audit-title span {
-        display: block;
-        margin-top: 8px;
-      }
-      .token-grid,
-      .palette,
-      .brief-board,
-      .metric-row {
+      .proof-strip,
+      .principles,
+      .token-board {
         grid-template-columns: 1fr;
       }
-      .audit-row {
-        grid-template-columns: 1fr;
-        gap: 6px;
+      .workbench-bar,
+      .prompt-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 12px;
       }
-      .site {
-        padding: 18px;
+      .workbench-body {
+        min-height: auto;
       }
-      .site h4 {
+      .workbench-rail,
+      .workbench-main,
+      .language-panel,
+      .gate-panel,
+      .reference-panel,
+      .aside-card {
+        padding: 16px;
+      }
+      .language-panel h2,
+      .check-panel h3,
+      .reference-panel h3 {
+        font-size: 26px;
+      }
+      .section-head h2 {
         font-size: 34px;
       }
+      .principle-card {
+        min-height: auto;
+      }
+      .compare-row,
+      .mini-table div,
       .step {
         grid-template-columns: 1fr;
+      }
+      .step {
         gap: 10px;
       }
       .footer-row {
@@ -942,333 +1204,448 @@
   </style>
 </head>
 <body>
-  <header class="top">
-    <div class="wrap top-row">
-      <a class="brand" href="#top" aria-label="Visual Taste Lab home">
-        <span class="mark">V</span>
-        <span>Visual Taste Lab</span>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="brand-lockup" href="#top" aria-label="Visual Taste Lab home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-text">
+          <span>Visual Taste Lab</span>
+          <small>VI-first agent design</small>
+        </span>
       </a>
-      <nav class="nav" aria-label="Primary navigation">
-        <a href="#demos">Demos</a>
-        <a href="#how">How it works</a>
-        <a href="#use">Use the Skill</a>
+
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#method">Method</a>
+        <a href="#cases">Cases</a>
+        <a href="#reference">Reference</a>
+        <a href="#archetypes">Archetypes</a>
+        <a href="#verify">Verify</a>
       </nav>
+
+      <div class="header-actions">
+        <a class="btn secondary" href="visual-taste-lab/SKILL.md">
+          Skill file
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+        <a class="btn primary" href="#use">
+          Use it
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
     </div>
   </header>
 
-  <main id="top">
-    <section class="hero">
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="wrap hero-grid">
-        <div>
-          <span class="eyebrow">Public Demo</span>
-          <h1>VI-first UI/UX<br />skill for coding<br class="mobile-only" /> agents.</h1>
+        <div class="hero-copy" data-reveal>
+          <span class="kicker">Public preview</span>
+          <h1 id="hero-title">Visual Taste Lab</h1>
+          <p class="hero-statement">A visual-identity workbench that helps coding agents stop designing from templates.</p>
           <p class="lead">
-            Visual Taste Lab helps agents stop making generic pages. It audits visual identity first,
-            turns it into a design language, then applies that language to static pages, product demos,
-            and brand systems.
+            It reads the visible brand signal first, names the page job, assigns reusable roles to color, type, surfaces, proof, and motion, then gives the agent a design language it can build and verify.
           </p>
           <div class="hero-actions">
-            <a class="btn primary" href="#demos">View the demos</a>
-            <a class="btn" href="#use">Use the Skill</a>
+            <a class="btn primary" href="#method">
+              See the workflow
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a class="btn" href="examples/goal-prompts.md">
+              Copy prompts
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 9h10v10H9z"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
+            </a>
           </div>
-          <p class="hero-note">Static GitHub Pages demo. No external runtime. No real client names.</p>
+          <p class="hero-note">Static GitHub Pages preview. All demo brands are fictional. No fake customers, partners, metrics, or private project material.</p>
+          <div class="proof-strip" aria-label="Project facts">
+            <div class="proof-item"><b>Input</b>Brand cues, screenshots, repo, references</div>
+            <div class="proof-item"><b>Output</b>Reusable design-language brief</div>
+            <div class="proof-item"><b>Gate</b>Responsive and anti-pattern checks</div>
+          </div>
         </div>
 
-        <aside class="lab-panel" aria-label="Visual identity audit preview">
-          <div class="panel-bar">
-            <span>visual-taste-lab/audit</span>
-            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-          </div>
-          <div class="audit">
-            <div class="audit-title">
-              <strong>Design before layout.</strong>
-              <span>Identity, roles, type, proof, page shape.</span>
+        <div class="hero-visual" data-reveal>
+          <section class="workbench" aria-label="Visual Taste Lab workbench preview">
+            <div class="workbench-bar">
+              <span>visual-taste-lab / identity-audit</span>
+              <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
-            <div class="token-grid" aria-label="Color role tokens">
-              <div class="token" style="background:#203447">Primary<small>#203447</small></div>
-              <div class="token" style="background:#c14e31">Accent<small>#C14E31</small></div>
-              <div class="token" style="background:#7d8b68">Support<small>#7D8B68</small></div>
-              <div class="token" style="background:#f4efe6;color:#151412">Ground<small>#F4EFE6</small></div>
+
+            <div class="workbench-body">
+              <aside class="workbench-rail">
+                <div class="rail-title">
+                  <span>Inputs</span>
+                  <span class="status-chip">scanned</span>
+                </div>
+                <ul class="input-list">
+                  <li><b>Logo anchor</b>Shape, rhythm, wordmark weight, and existing color cues.</li>
+                  <li><b>Page type</b>Company, product, utility, dashboard, portfolio, content, or hybrid.</li>
+                  <li><b>Audience</b>What a visitor must understand and trust in five seconds.</li>
+                </ul>
+
+                <div class="token-board" aria-label="Core color role tokens">
+                  <div class="token" style="background:#203447">Primary<small>#203447</small></div>
+                  <div class="token" style="background:#c14e31">Accent<small>#C14E31</small></div>
+                  <div class="token" style="background:#6f825f">Support<small>#6F825F</small></div>
+                  <div class="token" style="background:#f7f5ef;color:#15212b;border:1px solid rgba(21,33,43,.16)">Ground<small>#F7F5EF</small></div>
+                </div>
+              </aside>
+
+              <div class="workbench-main">
+                <div class="pipeline" aria-label="Design language pipeline">
+                  <article class="pipeline-step">
+                    <span>01</span>
+                    <b>Audit VI first.</b>
+                  </article>
+                  <article class="pipeline-step">
+                    <span>02</span>
+                    <b>Match page type.</b>
+                  </article>
+                  <article class="pipeline-step">
+                    <span>03</span>
+                    <b>Write rules.</b>
+                  </article>
+                </div>
+
+                <section class="language-panel" aria-label="Design language output preview">
+                  <h2>Design language, not decoration.</h2>
+                  <p>The page gets a compact system: type scale, color roles, surfaces, CTA behavior, content density, motion, imagery, and anti-patterns.</p>
+                  <ul class="language-list">
+                    <li><b>Typography</b>Editorial hierarchy with technical labels.</li>
+                    <li><b>Components</b>Buttons, cards, tables, forms, badges.</li>
+                    <li><b>Proof</b>Evidence blocks matched to site type.</li>
+                    <li><b>Motion</b>Structural reveals, no random loops.</li>
+                  </ul>
+                </section>
+
+                <div class="quality-gate" aria-label="Quality gate checklist">
+                  <div class="gate-pill"><b>check 1</b>No generic template.</div>
+                  <div class="gate-pill"><b>check 2</b>No nested cards.</div>
+                  <div class="verify-chip">npx impeccable detect index.html<br />screenshots: desktop + mobile</div>
+                </div>
+              </div>
             </div>
-            <div class="audit-list">
-              <div class="audit-row"><b>Site type</b><span>Company, product, content brand, tool, dashboard, or hybrid.</span></div>
-              <div class="audit-row"><b>VI anchor</b><span>Logo geometry, name tone, color roles, typography, and component shape.</span></div>
-              <div class="audit-row"><b>Output</b><span>A repeatable design language the agent can apply across pages.</span></div>
-            </div>
-          </div>
-        </aside>
+          </section>
+        </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="fit-title">
+    <section id="method" class="section" aria-labelledby="method-title">
       <div class="wrap">
         <div class="section-head">
           <div>
-            <span class="eyebrow">What it solves</span>
-            <h2 id="fit-title">A taste workflow agents can follow.</h2>
+            <span class="kicker">Method</span>
+            <h2 id="method-title">A repeatable taste workflow agents can actually follow.</h2>
           </div>
           <p>
-            The skill separates visual identity from page construction. Instead of asking an agent to
-            make a page nicer, it gives the agent a compact system for deciding what nicer means.
+            Visual Taste Lab turns an open-ended request like "make this better" into a design sequence with explicit decisions and verifiable output.
           </p>
         </div>
 
-        <div class="grid-4">
-          <article class="card">
-            <span class="num">01</span>
-            <h3>Find the VI anchor</h3>
-            <p>Start with the mark, name, audience, color cues, and the type of site being built.</p>
+        <div class="principles">
+          <article class="principle-card" data-reveal>
+            <span>01</span>
+            <h3>Start with VI</h3>
+            <p>Use the mark, word rhythm, existing palette, audience, and product category as the first constraints.</p>
           </article>
-          <article class="card">
-            <span class="num">02</span>
-            <h3>Assign color roles</h3>
-            <p>Primary, support, accent, surface, line, and semantic colors each get a job.</p>
+          <article class="principle-card" data-reveal>
+            <span>02</span>
+            <h3>Name the site type</h3>
+            <p>A company page, product page, utility, dashboard, and content brand should not share the same layout reflex.</p>
           </article>
-          <article class="card">
-            <span class="num">03</span>
-            <h3>Shape the evidence</h3>
-            <p>Company pages, product pages, and content brands need different proof patterns.</p>
+          <article class="principle-card" data-reveal>
+            <span>03</span>
+            <h3>Assign roles</h3>
+            <p>Colors, type, spacing, surfaces, cards, tables, buttons, and CTAs get jobs before screen-level styling begins.</p>
           </article>
-          <article class="card">
-            <span class="num">04</span>
-            <h3>Apply consistently</h3>
-            <p>Typography, spacing, cards, buttons, tables, and CTAs all speak the same language.</p>
+          <article class="principle-card" data-reveal>
+            <span>04</span>
+            <h3>Verify the result</h3>
+            <p>The final pass checks screenshots, overflow, hierarchy, anti-patterns, claim honesty, and repeated component rules.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="demos" class="section" aria-labelledby="demo-title">
+    <section id="cases" class="section" aria-labelledby="cases-title">
       <div class="wrap">
-        <div class="section-head">
+        <div class="section-head" data-reveal>
           <div>
-            <span class="eyebrow">Three fictional demos</span>
-            <h2 id="demo-title">Same skill, three different site types.</h2>
+            <span class="kicker">Generated case images</span>
+            <h2 id="cases-title">Three visual examples, all fictional and workflow-led.</h2>
           </div>
           <p>
-            These are invented examples for public preview. They show how the workflow changes tone,
-            layout, proof, and CTA behavior for different page goals.
+            These generated images are public teaching assets. They show how Visual Taste Lab talks about VI audit, page archetypes, and verification without pretending to have real clients, metrics, or case studies.
           </p>
         </div>
 
-        <div class="demo-stack">
-          <article class="company">
-            <div class="demo-intro">
-              <h3>Company Site</h3>
-              <p>A stable, credibility-first page for a fictional operations studio. The layout foregrounds
-                who the team is, what it organizes, and how visitors can evaluate fit.</p>
-            </div>
-            <div class="palette" aria-label="Company Site palette">
-              <div class="swatch" style="background:#18283a">Primary<small>#18283A</small></div>
-              <div class="swatch" style="background:#d7a32e;color:#151412">Support<small>#D7A32E</small></div>
-              <div class="swatch" style="background:#7d8b68">Accent<small>#7D8B68</small></div>
-              <div class="swatch" style="background:#f8f2e7;color:#151412">Ground<small>#F8F2E7</small></div>
-            </div>
-            <div class="stage">
-              <div class="stage-bar"><span>Northline Studio</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
-              <div class="site company-site">
-                <div class="site-nav">
-                  <div class="site-brand"><span class="company-logo"></span><span>Northline Studio</span></div>
-                  <div class="site-links"><span>Profile</span><span>Systems</span><span>Proof</span><span>Contact</span></div>
-                </div>
-                <div class="site-hero">
-                  <div>
-                    <span class="mini-pill">Company language</span>
-                    <h4>Complex work, made legible for long-term partners.</h4>
-                    <p>A company site should explain the organization before it sells a single feature:
-                      positioning, capability boundaries, working model, and contact path.</p>
-                    <div class="site-cta">
-                      <a class="btn primary" style="background:#18283a;border-color:#18283a" href="#use">View method</a>
-                      <a class="btn" style="border-color:rgba(24,40,58,.24)" href="#how">See process</a>
-                    </div>
-                  </div>
-                  <div class="brief-board">
-                    <div class="brief-cell"><b>Positioning</b><span>Clear audience, services, and decision context.</span></div>
-                    <div class="brief-cell"><b>Capability</b><span>Systems, content, operations, and delivery rhythm.</span></div>
-                    <div class="brief-cell"><b>Evidence</b><span>Readable proof blocks instead of loud claims.</span></div>
-                    <div class="brief-cell"><b>Contact</b><span>Low-friction inquiry paths and next steps.</span></div>
-                  </div>
-                </div>
-              </div>
+        <div class="case-grid">
+          <article class="case-card" data-reveal>
+            <img src="assets/cases/vi-audit-board.png" alt="Generated Visual Taste Lab case image showing a VI audit board with color-role tokens." loading="lazy" />
+            <div class="case-copy">
+              <span>Case image 01</span>
+              <h3>VI Audit Board</h3>
+              <p>Turns logo cues, palette roles, type attitude, and component geometry into the first design constraints.</p>
             </div>
           </article>
 
-          <article class="product">
-            <div class="demo-intro">
-              <h3>Product Page</h3>
-              <p>A direct, action-led page for a fictional dashboard tool. The visual system supports
-                fast comprehension, active states, and a clear primary conversion.</p>
-            </div>
-            <div class="palette" aria-label="Product Page palette">
-              <div class="swatch" style="background:#080a14">Primary<small>#080A14</small></div>
-              <div class="swatch" style="background:#93ff6c;color:#080a14">Accent<small>#93FF6C</small></div>
-              <div class="swatch" style="background:#485fff">Support<small>#485FFF</small></div>
-              <div class="swatch" style="background:#f8fbff;color:#080a14">Ground<small>#F8FBFF</small></div>
-            </div>
-            <div class="stage">
-              <div class="stage-bar"><span>Pulseboard</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
-              <div class="site product-site">
-                <div class="site-nav">
-                  <div class="site-brand"><span class="product-logo">P</span><span>Pulseboard</span></div>
-                  <div class="site-links"><span>Features</span><span>Templates</span><span>Pricing</span><span>Login</span></div>
-                </div>
-                <div class="site-hero">
-                  <div>
-                    <span class="mini-pill">Product-first page</span>
-                    <h4>Turn weekly signals into one shared operating view.</h4>
-                    <p>A product page should quickly answer what it does, how it behaves, why it is useful,
-                      and which action the visitor should take next.</p>
-                    <div class="metric-row">
-                      <div class="metric"><b>12</b><span>starter boards</span></div>
-                      <div class="metric"><b>5m</b><span>first setup</span></div>
-                      <div class="metric"><b>0</b><span>blank states</span></div>
-                    </div>
-                  </div>
-                  <div class="product-panel">
-                    <div class="dash-lines">
-                      <div class="dash-line"><span>Revenue pulse</span><b>live</b></div>
-                      <div class="dash-line"><span>Weekly focus</span><b>new</b></div>
-                      <div class="dash-line"><span>Team review</span><b>ready</b></div>
-                    </div>
-                    <a class="btn primary" style="width:100%;margin-top:12px;background:#93ff6c;border-color:#93ff6c;color:#080a14" href="#use">Start from prompt</a>
-                  </div>
-                </div>
-              </div>
+          <article class="case-card" data-reveal>
+            <img src="assets/cases/archetype-map.png" alt="Generated Visual Taste Lab case image showing a map of company, product, and editorial page archetypes." loading="lazy" />
+            <div class="case-copy">
+              <span>Case image 02</span>
+              <h3>Archetype Map</h3>
+              <p>Shows why a company brief, product console, editorial system, dashboard, and utility need different page shapes.</p>
             </div>
           </article>
 
-          <article class="content">
-            <div class="demo-intro">
-              <h3>Content Brand</h3>
-              <p>An editorial, rhythm-led page for a fictional publishing studio. The system relies on
-                typography, spacing, and memorable content frames instead of sales-page density.</p>
-            </div>
-            <div class="palette" aria-label="Content Brand palette">
-              <div class="swatch" style="background:#241a18">Primary<small>#241A18</small></div>
-              <div class="swatch" style="background:#c54a34">Accent<small>#C54A34</small></div>
-              <div class="swatch" style="background:#e2b95a;color:#241a18">Support<small>#E2B95A</small></div>
-              <div class="swatch" style="background:#fbf5eb;color:#241a18">Ground<small>#FBF5EB</small></div>
-            </div>
-            <div class="stage">
-              <div class="stage-bar"><span>Margin House</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
-              <div class="site content-site">
-                <div class="site-nav">
-                  <div class="site-brand"><span class="content-logo">M</span><span>Margin House</span></div>
-                  <div class="site-links"><span>Essays</span><span>Work</span><span>Archive</span><span>About</span></div>
-                </div>
-                <div class="site-hero">
-                  <div>
-                    <span class="mini-pill" style="border-radius:4px">Editorial brand language</span>
-                    <h4>Fewer modules, stronger memory.</h4>
-                    <p>A content brand page should create recognition through voice, editorial structure,
-                      image rhythm, and restrained calls to explore.</p>
-                    <div class="site-cta">
-                      <a class="btn primary" style="border-radius:4px;background:#241a18;border-color:#241a18" href="#how">Read the flow</a>
-                      <a class="btn" style="border-radius:4px;background:white;border-color:#d9cbbb" href="#demos">Browse demos</a>
-                    </div>
-                  </div>
-                  <div class="story-card">
-                    <div class="story-image" aria-hidden="true"></div>
-                    <div class="story-list">
-                      <div><span>Visual systems in plain language</span><b>Essay</b></div>
-                      <div><span>When a page needs less furniture</span><b>Note</b></div>
-                      <div><span>Design language as agent context</span><b>Guide</b></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <article class="case-card" data-reveal>
+            <img src="assets/cases/verification-gate.png" alt="Generated Visual Taste Lab case image showing screenshot, overflow, and proof-boundary verification checks." loading="lazy" />
+            <div class="case-copy">
+              <span>Case image 03</span>
+              <h3>Verification Gate</h3>
+              <p>Makes screenshot checks, anti-pattern detection, mobile layout, and honest proof boundaries part of the visual workflow.</p>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="how" class="section" aria-labelledby="how-title">
+    <section id="reference" class="section" aria-labelledby="reference-title">
       <div class="wrap">
-        <div class="section-head">
+        <div class="section-head" data-reveal>
           <div>
-            <span class="eyebrow">How it works</span>
-            <h2 id="how-title">From taste request to reusable page system.</h2>
+            <span class="kicker">Reference study</span>
+            <h2 id="reference-title">What this project learns from stronger design tooling.</h2>
           </div>
           <p>
-            The workflow is intentionally small enough for coding agents to follow inside a repo, but
-            structured enough to avoid one-off decoration.
+            The useful lesson is not a palette or typeface. It is the product shape: make the method visible, teach against anti-patterns, show before-and-after thinking, and keep verification close to the interface.
           </p>
         </div>
 
-        <div class="steps">
-          <article class="step">
+        <div class="reference-grid">
+          <article class="reference-panel" data-reveal>
             <div>
-              <h3>Audit the identity and page type.</h3>
-              <p>Collect the mark, name, existing colors, audience, content shape, and whether the page is
-                a company site, product page, content brand, or another interface type.</p>
+              <h3>Borrow the discipline. Keep the identity.</h3>
+              <p>
+                Visual Taste Lab should feel like a serious workbench for design-language decisions, not a copy of another brand. The page keeps its own warm technical editorial identity while adopting a sharper product narrative.
+              </p>
+            </div>
+            <div class="reference-tags" aria-label="Reference principles">
+              <span>visible method</span>
+              <span>anti-pattern literacy</span>
+              <span>token system</span>
+              <span>case-style proof</span>
+              <span>screenshot gate</span>
             </div>
           </article>
-          <article class="step">
-            <div>
-              <h3>Write a compact design language.</h3>
-              <p>Define typography, color roles, spacing, surfaces, cards, buttons, proof blocks, imagery,
-                motion, and anti-patterns before rebuilding the page.</p>
+
+          <div class="compare-board" data-reveal>
+            <div class="compare-row">
+              <b>Productize</b>
+              <span>Explain the skill as a working system with inputs, outputs, commands, and checks.</span>
+            </div>
+            <div class="compare-row">
+              <b>Teach</b>
+              <span>Name visual mistakes directly: generic hero shapes, random accents, overbuilt cards, and unsupported claims.</span>
+            </div>
+            <div class="compare-row">
+              <b>Prove</b>
+              <span>Use archetype previews and public screenshots instead of vague "premium" language.</span>
+            </div>
+            <div class="compare-row">
+              <b>Verify</b>
+              <span>Make responsive screenshots and deterministic checks part of the story, not a hidden final step.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="archetypes" class="section" aria-labelledby="archetype-title">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <div>
+            <span class="kicker">Archetypes</span>
+            <h2 id="archetype-title">Same workflow, different page jobs.</h2>
+          </div>
+          <p>
+            A useful design skill should adapt its page shape. These public examples are fictional and intentionally small, so the visual rules stay legible.
+          </p>
+        </div>
+
+        <div class="archetype-grid">
+          <article class="archetype-card" data-reveal>
+            <div class="archetype-top light">
+              <div class="mini-brand"><span>Company brief</span><span class="mini-mark" aria-hidden="true"></span></div>
+              <h3>Credibility before conversion.</h3>
+            </div>
+            <div class="archetype-body">
+              <p>For B2B, professional services, and institutional pages that need calm proof and clear contact paths.</p>
+              <div class="mini-table">
+                <div><b>Proof</b><span>Status tables, milestones, partner-safe language</span></div>
+                <div><b>Avoid</b><span>Vague future claims and loud template effects</span></div>
+              </div>
             </div>
           </article>
-          <article class="step">
-            <div>
-              <h3>Apply the system to real screens.</h3>
-              <p>Update shared tokens and components first, then tighten the page structure so the visual
-                decisions stay consistent across desktop and mobile.</p>
+
+          <article class="archetype-card" data-reveal>
+            <div class="archetype-top dark">
+              <div class="mini-brand"><span>Product console</span><span class="mini-mark" style="background:#93d86d" aria-hidden="true"></span></div>
+              <h3>Fast comprehension, then action.</h3>
+            </div>
+            <div class="archetype-body">
+              <p>For developer tools, dashboards, utilities, and product pages where the interface behavior must be obvious.</p>
+              <div class="mini-table">
+                <div><b>Proof</b><span>Code blocks, config panels, state rows</span></div>
+                <div><b>Avoid</b><span>Unreadable terminal decoration and equal CTAs</span></div>
+              </div>
             </div>
           </article>
-          <article class="step">
-            <div>
-              <h3>Verify with screenshots.</h3>
-              <p>Check the rendered page in desktop and narrow viewports, confirm it is non-empty, readable,
-                and free of horizontal overflow.</p>
+
+          <article class="archetype-card" data-reveal>
+            <div class="archetype-top editorial">
+              <div class="mini-brand"><span>Editorial system</span><span class="mini-mark" style="background:#d2a234" aria-hidden="true"></span></div>
+              <h3>Fewer modules, stronger memory.</h3>
+            </div>
+            <div class="archetype-body">
+              <p>For portfolios, content brands, reports, and design-led pages where typography and rhythm carry the identity.</p>
+              <div class="mini-table">
+                <div><b>Proof</b><span>Essays, visual sequences, source notes</span></div>
+                <div><b>Avoid</b><span>Dashboard density and generic card grids</span></div>
+              </div>
             </div>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="verify" class="section" aria-labelledby="verify-title">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <div>
+            <span class="kicker">Verify</span>
+            <h2 id="verify-title">The public preview should pass its own taste check.</h2>
+          </div>
+          <p>
+            The preview assets are static screenshots generated from this page. They are part of the repo contract: desktop and mobile should remain readable, non-empty, and free of horizontal overflow.
+          </p>
+        </div>
+
+        <div class="screens">
+          <figure class="screenshot-frame" data-reveal>
+            <img src="assets/preview-desktop.png" alt="Desktop screenshot of the Visual Taste Lab public preview." loading="lazy" />
+            <figcaption class="screenshot-caption">Desktop preview asset, 1440 x 1100.</figcaption>
+          </figure>
+          <figure class="screenshot-frame" data-reveal>
+            <img src="assets/preview-mobile.png" alt="Mobile screenshot of the Visual Taste Lab public preview." loading="lazy" />
+            <figcaption class="screenshot-caption">Mobile preview asset, 390 x 1200.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="flow-title">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <div>
+            <span class="kicker">Execution</span>
+            <h2 id="flow-title">From reference to committed UI, without guessing.</h2>
+          </div>
+          <p>
+            This is the implementation loop the skill asks agents to follow inside a real project.
+          </p>
+        </div>
+
+        <div class="method-layout">
+          <div class="steps" data-reveal>
+            <article class="step">
+              <div>
+                <h3>Read the project before choosing style.</h3>
+                <p>Collect current pages, assets, typography, colors, content structure, and the strongest brand cues.</p>
+              </div>
+            </article>
+            <article class="step">
+              <div>
+                <h3>Write the design language.</h3>
+                <p>Document decisions about tokens, page patterns, components, imagery, motion, and forbidden visual moves.</p>
+              </div>
+            </article>
+            <article class="step">
+              <div>
+                <h3>Apply system-first.</h3>
+                <p>Update shared surfaces, navigation, buttons, cards, lists, and CTAs before isolated page polish.</p>
+              </div>
+            </article>
+            <article class="step">
+              <div>
+                <h3>Run visual and technical checks.</h3>
+                <p>Use screenshots, overflow checks, build checks, and anti-pattern detection as the final acceptance gate.</p>
+              </div>
+            </article>
+          </div>
+
+          <aside class="check-panel" data-reveal>
+            <h3>Acceptance checklist</h3>
+            <p>Good output should feel specific, reusable, and honest.</p>
+            <ul class="check-list">
+              <li><span>1</span><span>VI and site type are named before layout work starts.</span></li>
+              <li><span>2</span><span>Color roles, type scale, surfaces, and components use shared tokens.</span></li>
+              <li><span>3</span><span>No unsupported customers, metrics, quotes, partners, or case studies.</span></li>
+              <li><span>4</span><span>Desktop and mobile screenshots show no overlap, clipping, or horizontal scroll.</span></li>
+            </ul>
+          </aside>
         </div>
       </div>
     </section>
 
     <section id="use" class="section" aria-labelledby="use-title">
       <div class="wrap">
-        <div class="section-head">
+        <div class="section-head" data-reveal>
           <div>
-            <span class="eyebrow">Use the Skill</span>
-            <h2 id="use-title">Give your coding agent a visual brief it can execute.</h2>
+            <span class="kicker">Use the skill</span>
+            <h2 id="use-title">Give your agent a brief it can build from.</h2>
           </div>
           <p>
-            Paste a goal like this into a coding-agent session with the Visual Taste Lab skill installed.
-            Add screenshots, links, or brand notes when you have them.
+            Paste this into a coding-agent session with the Visual Taste Lab skill installed. Add screenshots, links, brand notes, and required pages when you have them.
           </p>
         </div>
 
-        <div class="command-layout">
-          <div class="terminal" aria-label="Example command">
-            <div class="panel-bar" style="background:#201f1d;color:#bdb5aa;border-color:rgba(255,255,255,.12)">
+        <div class="use-grid">
+          <section class="prompt-card" data-reveal aria-label="Copyable Visual Taste Lab goal prompt">
+            <div class="prompt-toolbar">
               <span>prompt.txt</span>
-              <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <button class="copy-button" type="button" data-copy="#goal-prompt">Copy prompt</button>
             </div>
-            <pre><code>/goal Use $visual-taste-lab to improve this website visually.
+            <pre id="goal-prompt"><code>/goal Use $visual-taste-lab to improve this project visually.
 
-First distill a reusable design language from the repo, screenshots, links, and brand notes.
+First distill a reusable design language from the repo, screenshots, links, references, and brand context. Do not redesign immediately.
+
 Start with a VI audit:
 - logo or wordmark
 - primary, support, accent, neutral, and semantic colors
 - site type and audience
-- typography, spacing, surfaces, components, CTA rules, and anti-patterns
+- typography, spacing, surfaces, components, CTA rules, motion, imagery, and anti-patterns
 
-Then apply the design language to the key pages.
-Keep claims honest. Keep mobile clean. Verify with screenshots.</code></pre>
-          </div>
+Then apply the design language to the key pages/components.
 
-          <aside class="copy-card">
-            <h3>Best inputs</h3>
-            <p>The skill works with sparse context, but it gets sharper when you provide source material.</p>
+Constraints:
+- do not invent fake customers, metrics, partners, or quotes
+- do not delete unrelated files
+- keep mobile clean with no horizontal overflow
+- run build/tests and screenshot checks when applicable
+- summarize changed files and remaining content/assets needed</code></pre>
+          </section>
+
+          <aside class="aside-card" data-reveal>
+            <h3>Best source material</h3>
+            <p>The skill works with sparse context, but it becomes sharper when the agent can see concrete anchors.</p>
             <ul>
-              <li>Current page screenshots or a local URL.</li>
-              <li>Logo, brand colors, or naming notes.</li>
-              <li>Audience, site type, and the primary action.</li>
-              <li>Examples of sites whose tone feels relevant.</li>
+              <li>Current local URL or screenshots.</li>
+              <li>Logo, wordmark, palette, or naming notes.</li>
+              <li>Audience, site type, and primary action.</li>
+              <li>References whose structure feels relevant.</li>
+              <li>Real proof points approved for public use.</li>
             </ul>
           </aside>
         </div>
@@ -1278,9 +1655,57 @@ Keep claims honest. Keep mobile clean. Verify with screenshots.</code></pre>
 
   <footer class="footer">
     <div class="wrap footer-row">
-      <span>Visual Taste Lab is a public demo page for a coding-agent skill.</span>
-      <span>All demo brands on this page are fictional.</span>
+      <span>Visual Taste Lab is a public demo page for a coding-agent design skill.</span>
+      <span><a href="README.md">README</a> / <a href="visual-taste-lab/SKILL.md">Skill file</a> / fictional demos only</span>
     </div>
   </footer>
+
+  <script>
+    const revealItems = document.querySelectorAll("[data-reveal]");
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+      revealItems.forEach((item) => observer.observe(item));
+    } else {
+      revealItems.forEach((item) => item.classList.add("is-visible"));
+    }
+
+    const navLinks = [...document.querySelectorAll(".site-nav a")];
+    const sections = navLinks
+      .map((link) => document.querySelector(link.getAttribute("href")))
+      .filter(Boolean);
+
+    if ("IntersectionObserver" in window && sections.length) {
+      const navObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          navLinks.forEach((link) => {
+            link.classList.toggle("is-active", link.getAttribute("href") === "#" + entry.target.id);
+          });
+        });
+      }, { rootMargin: "-35% 0px -55% 0px", threshold: 0.01 });
+      sections.forEach((section) => navObserver.observe(section));
+    }
+
+    const copyButton = document.querySelector("[data-copy]");
+    copyButton?.addEventListener("click", async () => {
+      const target = document.querySelector(copyButton.dataset.copy);
+      const text = target?.innerText || "";
+      try {
+        await navigator.clipboard.writeText(text);
+        copyButton.textContent = "Copied";
+        setTimeout(() => { copyButton.textContent = "Copy prompt"; }, 1400);
+      } catch {
+        copyButton.textContent = "Select text";
+        setTimeout(() => { copyButton.textContent = "Copy prompt"; }, 1400);
+      }
+    });
+  </script>
 </body>
 </html>

@@ -52,6 +52,10 @@ The page should show what the product does quickly, but it should avoid feeling 
 
 Use real product screenshots or precise interface mockups. Avoid vague desk photos, abstract gradients, and images that do not explain the workflow.
 
+## Evidence And Copy Boundaries
+
+Use fictional placeholder copy for this sample. In a real project, do not add customers, usage numbers, testimonials, supplier names, or operational claims unless the user provides approved public proof.
+
 ## Motion
 
 Motion should support state changes: drawer open, row update, filter apply, save confirmation. Avoid looping decorative animation.
